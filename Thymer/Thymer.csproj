@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Xamarin.Forms" Version="4.2.0.848062" />  
+    <PackageReference Include="Xamarin.Essentials" Version="1.3.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Core\" />
+    <Folder Include="Core\Models\" />
+    <Folder Include="Adapters\" />
+    <Folder Include="Adapters\Views\" />
+    <Folder Include="Adapters\ViewModels\" />
+    <Folder Include="Ports\" />
+    <Folder Include="Ports\Services\" />
+    <Folder Include="Adapters\Services\" />
+    <Folder Include="Adapters\Services\Navigation\" />
+    <Folder Include="Adapters\Services\IoC\" />
+  </ItemGroup>
+</Project>
