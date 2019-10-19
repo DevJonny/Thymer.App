@@ -5,6 +5,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 using Thymer.Models;
+using Thymer.Ports.Messaging;
 
 namespace Thymer.Adapters.Views
 {
@@ -30,7 +31,7 @@ namespace Thymer.Adapters.Views
 
         async void Save_Clicked(object sender, EventArgs e)
         {
-            MessagingCenter.Send(this, "AddItem", Item);
+            MessagingCenter.Send(this, Messages.AddRecipe, Item);
             await Navigation.PopModalAsync();
         }
 

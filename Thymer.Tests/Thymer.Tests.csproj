@@ -8,6 +8,8 @@
 
   <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="5.9.0" />
+    <PackageReference Include="Machine.Specifications" Version="1.0.0" />
+    <PackageReference Include="Machine.Specifications.Runner.VisualStudio" Version="2.9.0" />
     <PackageReference Include="nunit" Version="3.12.0" />
     <PackageReference Include="NUnit.Runners" Version="3.10.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.15.1" />
@@ -17,9 +19,5 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Thymer\Thymer.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="TestDoubles" />
   </ItemGroup>
 </Project>

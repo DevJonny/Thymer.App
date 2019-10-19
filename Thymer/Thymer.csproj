@@ -10,6 +10,7 @@
     <PackageReference Include="Xamarin.Essentials" Version="1.3.1" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Adapters\Messaging" />
     <Folder Include="Core\" />
     <Folder Include="Core\Models\" />
     <Folder Include="Adapters\" />

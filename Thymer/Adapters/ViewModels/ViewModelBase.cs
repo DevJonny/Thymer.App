@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Thymer.Adapters.Services.Navigation;
 using Thymer.Models;
 using Thymer.Services;
+using TinyIoC;
 using Xamarin.Forms;
 
 namespace Thymer.Adapters.ViewModels
@@ -58,7 +59,7 @@ namespace Thymer.Adapters.ViewModels
             return Task.CompletedTask;
         }
         
-        public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>();
+        public IDataStore<Item> DataStore => TinyIoCContainer.Current.Resolve<IDataStore<Item>>();
 
         private bool isBusy = false;
         public bool IsBusy

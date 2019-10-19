@@ -5,24 +5,31 @@ using System.Threading.Tasks;
 using Thymer.Adapters.Services.Navigation;
 using Thymer.Adapters.Views;
 using Thymer.Models;
+using Thymer.Ports.Messaging;
 using Xamarin.Forms;
 
 namespace Thymer.Adapters.ViewModels
 {
     public class ItemsViewModel : ViewModelBase
     {
-        public ObservableCollection<Item> Items { get; set; }
-        public Command LoadItemsCommand { get; set; }
+        public ObservableCollection<Item> Items { get; }
+        public Command LoadItemsCommand { get; }
 
-        public ItemsViewModel(INavigationService navigationService) : base(navigationService)
+        private readonly INavigationService _navigationService;
+        private readonly IMessagingCenter _messagingCenter;
+
+        public ItemsViewModel(INavigationService navigationService, IMessagingCenter messagingCenter) : base(navigationService)
         {
+            _navigationService = navigationService;
+            _messagingCenter = messagingCenter;
+            
             Title = "Browse";
             Items = new ObservableCollection<Item>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
 
-            MessagingCenter.Subscribe<NewItemPage, Item>(this, "AddItem", async (obj, item) =>
+            messagingCenter.Subscribe<NewItemPage, Item>(this, Messages.AddRecipe, async (obj, item) =>
             {
-                var newItem = item as Item;
+                Item newItem = item;
                 Items.Add(newItem);
                 await DataStore.AddItemAsync(newItem);
             });
