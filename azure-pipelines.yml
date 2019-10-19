@@ -1,4 +1,5 @@
 # Xamarin.iOS
+
 # Build a Xamarin.iOS project.
 # Add steps that install certificates, test, sign, and distribute an app, save build artifacts, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/xamarin
@@ -30,3 +31,9 @@ steps:
     configuration: 'Release'
     buildForSimulator: true
     packageApp: false
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'test'
+    projects: './Thymer.Tests'
+    testRunTitle: 'Thymer Tests'
