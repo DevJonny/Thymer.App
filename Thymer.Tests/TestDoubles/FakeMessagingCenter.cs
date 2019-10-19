@@ -18,12 +18,12 @@ namespace Thymer.Tests.TestDoubles
             throw new NotImplementedException();
         }
 
-        public void Subscribe<TSender, TArgs>(object subscriber, string message, Action<TSender, TArgs> callback, TSender source = default) where TSender : class
+        public void Subscribe<TSender, TArgs>(object subscriber, string message, Action<TSender, TArgs> callback, TSender source = default(TSender)) where TSender : class
         {
             Subscribers.Add((subscriber, message, !(callback is null)));
         }
 
-        public void Subscribe<TSender>(object subscriber, string message, Action<TSender> callback, TSender source = default) where TSender : class
+        public void Subscribe<TSender>(object subscriber, string message, Action<TSender> callback, TSender source = default(TSender)) where TSender : class
         {
             throw new NotImplementedException();
         }
