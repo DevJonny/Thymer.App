@@ -3,6 +3,7 @@ using System.ComponentModel;
 using Thymer.Adapters.ViewModels;
 using Xamarin.Forms;
 using Thymer.Models;
+using TinyIoC;
 
 namespace Thymer.Adapters.Views
 {
@@ -11,13 +12,13 @@ namespace Thymer.Adapters.Views
     [DesignTimeVisible(false)]
     public partial class ItemsPage : ContentPage
     {
-        ItemsViewModel viewModel;
+        readonly ItemsViewModel viewModel;
 
-        public ItemsPage(ItemsViewModel viewModel)
+        public ItemsPage()
         {
             InitializeComponent();
 
-            BindingContext = viewModel;
+            BindingContext = viewModel = TinyIoCContainer.Current.Resolve<ItemsViewModel>();
         }
 
         async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)

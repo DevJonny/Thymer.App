@@ -1,5 +1,5 @@
-﻿using Xamarin.Forms;
-using Thymer.Services;
+﻿using System.ComponentModel;
+using Xamarin.Forms;
 
 namespace Thymer
 {
@@ -9,8 +9,9 @@ namespace Thymer
         public App()
         {
             InitializeComponent();
+            
+            ContainerRegistration.Register();
 
-            DependencyService.Register<MockDataStore>();
             MainPage = new AppShell();
         }
 
