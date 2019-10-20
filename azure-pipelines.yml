@@ -21,18 +21,18 @@ steps:
 
 - task: NuGetToolInstaller@1
 
-- task: NugetRestore@2
+- task: NuGetCommand@2
   inputs:
     restoreSolution: '**/*.sln'
 
-- task: XamariniOSBuild@2
+- task: XamariniOS@2
   inputs:
     solutionFile: '**/*.sln'
     configuration: 'Release'
     buildForSimulator: true
     packageApp: false
 
-- task: MSpecTests@2
+- task: DotNetCoreCLI@2
   inputs:
     command: 'test'
     projects: './Thymer.Tests'
