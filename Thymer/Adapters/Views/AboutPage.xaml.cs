@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel;
+using Thymer.Adapters.ViewModels;
+using TinyIoC;
 using Xamarin.Forms;
 
 namespace Thymer.Adapters.Views
@@ -11,6 +13,8 @@ namespace Thymer.Adapters.Views
         public AboutPage()
         {
             InitializeComponent();
+
+            BindingContext = TinyIoCContainer.Current.Resolve<AboutViewModel>();
         }
     }
 }

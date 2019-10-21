@@ -1,11 +1,13 @@
-﻿using Thymer.Models;
+﻿using Thymer.Adapters.Services.Navigation;
+using Thymer.Models;
 
 namespace Thymer.Adapters.ViewModels
 {
-    public class ItemDetailViewModel : BaseViewModel
+    public class ItemDetailViewModel : ViewModelBase
     {
         public Item Item { get; set; }
-        public ItemDetailViewModel(Item item = null)
+        
+        public ItemDetailViewModel(INavigationService navigationService, Item item = null) : base(navigationService)
         {
             Title = item?.Text;
             Item = item;

@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
+using Thymer.Adapters.ViewModels;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
-
 using Thymer.Models;
 using Thymer.Ports.Messaging;
+using TinyIoC;
 
 namespace Thymer.Adapters.Views
 {
@@ -14,24 +13,18 @@ namespace Thymer.Adapters.Views
     [DesignTimeVisible(false)]
     public partial class NewItemPage : ContentPage
     {
-        public Item Item { get; set; }
+        public NewItemViewModel ViewModel;
 
         public NewItemPage()
         {
             InitializeComponent();
 
-            Item = new Item
-            {
-                Text = "Item name",
-                Description = "This is an item description."
-            };
-
-            BindingContext = this;
+            BindingContext = ViewModel = TinyIoCContainer.Current.Resolve<NewItemViewModel>();
         }
 
         async void Save_Clicked(object sender, EventArgs e)
         {
-            MessagingCenter.Send(this, Messages.AddRecipe, Item);
+            MessagingCenter.Send(this, Messages.AddRecipe, ViewModel.Recipe);
             await Navigation.PopModalAsync();
         }
 

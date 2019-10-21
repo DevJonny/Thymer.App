@@ -7,7 +7,6 @@ using Thymer.Adapters.Services.Navigation;
 using Thymer.Models;
 using Thymer.Services;
 using TinyIoC;
-using Xamarin.Forms;
 
 namespace Thymer.Adapters.ViewModels
 {
@@ -28,9 +27,7 @@ namespace Thymer.Adapters.ViewModels
         protected bool SetPropertyAndRaise<T>(ref T field, T newValue, [CallerMemberName] string propertyName = null)
         {
             if (EqualityComparer<T>.Default.Equals(field, newValue))
-            {
                 return false;
-            }
 
             field = newValue;
 

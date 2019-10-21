@@ -6,9 +6,6 @@
              xmlns:viewModels="clr-namespace:Thymer.Adapters.ViewModels;assembly=Thymer"
              mc:Ignorable="d" x:Class="Thymer.Adapters.Views.AboutPage"
              Title="{Binding Title}">
-    <ContentPage.BindingContext>
-        <viewModels:AboutViewModel />
-    </ContentPage.BindingContext>
     <ContentPage.Resources>
         <ResourceDictionary>
             <Color x:Key="Primary">#2196F3</Color>

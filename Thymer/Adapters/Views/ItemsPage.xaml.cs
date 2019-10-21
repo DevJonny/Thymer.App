@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using Thymer.Adapters.Services.Navigation;
 using Thymer.Adapters.ViewModels;
 using Xamarin.Forms;
 using Thymer.Models;
@@ -27,7 +28,9 @@ namespace Thymer.Adapters.Views
             if (item == null)
                 return;
 
-            await Navigation.PushAsync(new ItemDetailPage(new ItemDetailViewModel(item)));
+            var navigationService = TinyIoCContainer.Current.Resolve<INavigationService>();
+            
+            await Navigation.PushAsync(new ItemDetailPage(new ItemDetailViewModel(navigationService, item)));
 
             // Manually deselect item.
             ItemsListView.SelectedItem = null;

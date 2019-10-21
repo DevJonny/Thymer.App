@@ -1,10 +1,12 @@
 ﻿using System;
 using System.ComponentModel;
+using Thymer.Adapters.Services.Navigation;
 using Thymer.Adapters.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 using Thymer.Models;
+using TinyIoC;
 
 namespace Thymer.Adapters.Views
 {
@@ -32,7 +34,7 @@ namespace Thymer.Adapters.Views
                 Description = "This is an item description."
             };
 
-            viewModel = new ItemDetailViewModel(item);
+            viewModel = new ItemDetailViewModel(TinyIoCContainer.Current.Resolve<INavigationService>(), item);
             BindingContext = viewModel;
         }
     }
