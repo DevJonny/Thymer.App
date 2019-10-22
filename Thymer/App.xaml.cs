@@ -1,16 +1,17 @@
 ﻿using System.ComponentModel;
+using Thymer.Adapters.Services.Navigation;
 using Xamarin.Forms;
 
 namespace Thymer
 {
-    public partial class App : Application
+    public partial class App : Application, IHaveMainPage
     {
 
         public App()
         {
             InitializeComponent();
             
-            ContainerRegistration.Register();
+            ContainerRegistration.Register(this);
 
             MainPage = new AppShell();
         }

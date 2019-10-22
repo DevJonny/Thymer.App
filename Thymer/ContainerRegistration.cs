@@ -8,9 +8,9 @@ namespace Thymer
 {
     public static class ContainerRegistration
     {
-        public static void Register()
+        public static void Register(IHaveMainPage mainPage)
         {
-            TinyIoCContainer.Current.Register<INavigationService, NavigationService>(new NavigationService(null, new ViewLocator()));
+            TinyIoCContainer.Current.Register<INavigationService, NavigationService>(new NavigationService(mainPage, new ViewLocator()));
             TinyIoCContainer.Current.Register<IDataStore<Item>>(new MockDataStore());
             TinyIoCContainer.Current.Register(MessagingCenter.Instance);
             
