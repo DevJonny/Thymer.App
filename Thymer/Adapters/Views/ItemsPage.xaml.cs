@@ -14,12 +14,15 @@ namespace Thymer.Adapters.Views
     public partial class ItemsPage : ContentPage
     {
         readonly ItemsViewModel viewModel;
+        readonly INavigationService _navigationService;
 
         public ItemsPage()
         {
             InitializeComponent();
 
             BindingContext = viewModel = TinyIoCContainer.Current.Resolve<ItemsViewModel>();
+            
+            _navigationService = TinyIoCContainer.Current.Resolve<INavigationService>();
         }
 
         async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
@@ -28,9 +31,7 @@ namespace Thymer.Adapters.Views
             if (item == null)
                 return;
 
-            var navigationService = TinyIoCContainer.Current.Resolve<INavigationService>();
-            
-            await Navigation.PushAsync(new ItemDetailPage(new ItemDetailViewModel(navigationService, item)));
+            await Navigation.PushAsync(new ItemDetailPage(new ItemDetailViewModel(_navigationService, item)));
 
             // Manually deselect item.
             ItemsListView.SelectedItem = null;
@@ -38,7 +39,7 @@ namespace Thymer.Adapters.Views
 
         async void AddItem_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushModalAsync(new NavigationPage(new NewItemPage()));
+            await _navigationService.NavigateTo<NewItemViewModel>();
         }
 
         protected override void OnAppearing()
