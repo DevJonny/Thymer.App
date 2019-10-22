@@ -7,10 +7,11 @@ namespace Thymer.Tests.TestDoubles
     public class FakeMessagingCenter : IMessagingCenter
     {
         public List<(object subscriber, string message, bool hasCallback)> Subscribers = new List<(object, string, bool)>();
+        public List<(object sender, string message, object args)> SentMessages = new List<(object sender, string message, object args)>();
         
         public void Send<TSender, TArgs>(TSender sender, string message, TArgs args) where TSender : class
         {
-            throw new NotImplementedException();
+            SentMessages.Add((sender, message, args));
         }
 
         public void Send<TSender>(TSender sender, string message) where TSender : class
