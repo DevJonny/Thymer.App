@@ -37,7 +37,7 @@ namespace Thymer.Tests.ViewModelTests
                 };
             };
             
-            Because of = () => vm.SaveNewRecipe.Execute(null);
+            Because of = () => vm.SaveNewRecipe();
 
             It should_have_sent_add_item = () =>
                 _messagingCenter.SentMessages

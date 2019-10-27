@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using Thymer.Adapters.Services.Navigation;
 using Thymer.Adapters.Views;
+using Thymer.Core.Models;
 using Thymer.Models;
 using Thymer.Ports.Messaging;
 using Xamarin.Forms;
@@ -27,11 +28,11 @@ namespace Thymer.Adapters.ViewModels
             Items = new ObservableCollection<Item>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
 
-            messagingCenter.Subscribe<NewItemPage, Item>(this, Messages.AddRecipe, async (obj, item) =>
+            messagingCenter.Subscribe<NewItemPage, Recipe>(this, Messages.AddRecipe, async (obj, recipe) =>
             {
-                Item newItem = item;
-                Items.Add(newItem);
-                await DataStore.AddItemAsync(newItem);
+                Recipe newItem = recipe;
+//                Items.Add(newItem);
+//                await DataStore.AddItemAsync(newItem);
             });
         }
 

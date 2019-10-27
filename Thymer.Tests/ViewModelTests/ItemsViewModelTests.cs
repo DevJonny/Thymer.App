@@ -1,29 +1,13 @@
 using FluentAssertions;
 using Machine.Specifications;
-using Thymer.Adapters.Services.Navigation;
 using Thymer.Adapters.ViewModels;
-using Thymer.Models;
 using Thymer.Ports.Messaging;
-using Thymer.Services;
-using Thymer.Tests.TestDoubles;
-using TinyIoC;
 
 namespace Thymer.Tests.ViewModelTests
 {
     [Subject("ItemsViewModel")]
-    class ItemsViewModelTests
+    class ItemsViewModelTests : BaseViewModelTests
     {
-        static INavigationService _navigationService;
-        static FakeMessagingCenter _messagingCenter;
-
-        private Establish context = () =>
-        {
-            _navigationService = new NavigationService(null, new ViewLocator());
-            _messagingCenter = new FakeMessagingCenter();
-
-            TinyIoCContainer.Current.Register<IDataStore<Item>>(new MockDataStore());
-        };
-        
         class When_items_vm_is_loaded
         {
             static ItemsViewModel vm;
