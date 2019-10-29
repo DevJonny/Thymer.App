@@ -10,18 +10,19 @@ using Thymer.Core.Exceptions;
 using Thymer.Core.Models;
 using Thymer.Models;
 using Thymer.Services.Database;
+using Thymer.Tests.TestDataBuilders;
 
 namespace Thymer.Tests.ServiceTests
 {
     public class DatabaseTests
     {
-        static readonly string name = "Roast Beef"; 
-        static readonly string description = "The best of the roasts"; 
-        static readonly string stepOneName = "Beef";
-        static readonly string stepTwoName = "Roast Potatoes";
-        static readonly long stepOneDuration = 500;
-        static readonly long stepTwoDuration = 250;
-        
+        private const string title = "Roast Beef";
+        private const string description = "The best of the roasts";
+        private const string stepOneName = "Beef";
+        private const string stepTwoName = "Roast Potatoes";
+        private const long stepOneDuration = 500;
+        private const long stepTwoDuration = 250;
+
         static IAmADatabase _database;
 
         private Establish context = () =>
@@ -37,12 +38,10 @@ namespace Thymer.Tests.ServiceTests
         {
             static Recipe recipe;
 
-            private Establish context = () =>
-            {
-                recipe = new Recipe(name, description);
-                recipe.AddStep(new Step(stepOneName, stepOneDuration));
-                recipe.AddStep(new Step(stepTwoName, stepTwoDuration));
-            };
+            private Establish context = () => recipe =
+                new RecipeTestDataBuilder()
+                    .WithSteps(new StepTestDataBuilder().Build(), new StepTestDataBuilder().Build())
+                    .Build();
 
             Because of = () => _database.AddRecipe(recipe);
 
@@ -64,9 +63,19 @@ namespace Thymer.Tests.ServiceTests
 
             Establish context = async () =>
             {
-                var recipeToSave = new Recipe(name, description);
-                recipeToSave.AddStep(new Step(stepOneName, stepOneDuration));
-                recipeToSave.AddStep(new Step(stepTwoName, stepTwoDuration));
+                var recipeToSave = new RecipeTestDataBuilder()
+                    .WithTitle(title)
+                    .WithDescription(description)
+                    .WithSteps(
+                        new StepTestDataBuilder()
+                            .WithName(stepOneName)
+                            .WithDuration(stepOneDuration)
+                            .Build(), 
+                        new StepTestDataBuilder()
+                            .WithName(stepTwoName)
+                            .WithDuration(stepTwoDuration)
+                            .Build())
+                    .Build();
 
                 id = recipeToSave.Id;
 
@@ -83,13 +92,48 @@ namespace Thymer.Tests.ServiceTests
             It should_return_correct_recipe = () =>
             {
                 recipe.Id.Should().Be(id);
-                recipe.Title.Should().Be(name);
+                recipe.Title.Should().Be(title);
                 recipe.Description.Should().Be(description);
                 recipe.Steps.Should().BeEquivalentTo(new List<Step>
                 {
                     new Step(stepOneName, stepOneDuration),
                     new Step(stepTwoName, stepTwoDuration)
                 }, options => options.Excluding(s => s.Id));
+            };
+        }
+
+        class When_retrieving_all_recipes
+        {
+            static readonly List<Recipe> recipes = new List<Recipe>();
+            static IReadOnlyList<Recipe> returnedRecipes;
+
+            Establish context => async () =>
+            {
+                var recipeOne = new RecipeTestDataBuilder()
+                    .WithSteps(
+                        new StepTestDataBuilder().Build(), 
+                        new StepTestDataBuilder().Build())
+                    .Build();
+                
+                var recipeTwo = new RecipeTestDataBuilder()
+                    .WithSteps(
+                        new StepTestDataBuilder().Build())
+                    .Build();
+                
+                recipes.Add(recipeOne);
+                recipes.Add(recipeTwo);
+
+                _database.Connection.InsertAllAsync(recipes);
+            };
+
+            Because of = () =>
+            {
+                returnedRecipes = new List<Recipe>(_database.GetAllRecipes().Result);
+            };
+
+            It should_return_all_recipes = () =>
+            {
+                returnedRecipes.Should().BeEquivalentTo(recipes);
             };
         }
 

@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SQLite;
@@ -35,6 +37,13 @@ namespace Thymer.Adapters.Services.Database
                 throw new RecipeDoesNotExistException();
 
             return JsonConvert.DeserializeObject<Recipe>(storedRecipe.Recipe);
+        }
+
+        public async Task<IEnumerable<Recipe>> GetAllRecipes()
+        {
+            var storedRecipes = await _recipeTable.ToListAsync();
+
+            return storedRecipes.Select(sr => JsonConvert.DeserializeObject<Recipe>(sr.Recipe));
         }
     }
 }
