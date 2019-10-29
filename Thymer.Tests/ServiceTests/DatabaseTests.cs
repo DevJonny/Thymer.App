@@ -25,13 +25,9 @@ namespace Thymer.Tests.ServiceTests
 
         static IAmADatabase _database;
 
-        private Establish context = () =>
+        Establish context = () =>
         {
-            var dbPath = Path.Combine(Environment.CurrentDirectory, "test.db");
-            
-            File.Delete(dbPath);
-            
-            _database = new Database(dbPath);
+            _database = new Database(":memory:");
         };
         
         class When_adding_a_new_recipe_to_the_database
