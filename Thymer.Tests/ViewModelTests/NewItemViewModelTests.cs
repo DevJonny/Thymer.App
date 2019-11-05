@@ -6,6 +6,7 @@ using Thymer.Ports.Messaging;
 
 namespace Thymer.Tests.ViewModelTests
 { 
+    [Subject("NewItemViewModel")]
     class NewItemViewModelTests : BaseViewModelTests
     {
         static readonly string name = "Roast Beef"; 
