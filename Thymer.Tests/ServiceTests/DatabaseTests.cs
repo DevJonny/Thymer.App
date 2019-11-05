@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Machine.Specifications;
@@ -30,14 +30,55 @@ namespace Thymer.Tests.ServiceTests
             _database = new Database(":memory:");
         };
         
+        class When_retrieving_all_recipes
+        {
+            static List<Recipe> recipes;
+            static List<Recipe> returnedRecipes;
+
+            private Establish context = () =>
+            {
+                var recipeOne = new RecipeTestDataBuilder()
+                    .WithSteps(
+                        new StepTestDataBuilder().Build(), 
+                        new StepTestDataBuilder().Build())
+                    .Build();
+                
+                var recipeTwo = new RecipeTestDataBuilder()
+                    .WithSteps(
+                        new StepTestDataBuilder().Build())
+                    .Build();
+
+                recipes = new List<Recipe> {recipeOne, recipeTwo};
+
+                var storedRecipes = recipes.Select(r => new StoredRecipe(r.Id, r.ToString()));
+
+                _database.Connection.DeleteAllAsync<StoredRecipe>();
+                
+                var result = _database.Connection.InsertAllAsync(storedRecipes).Result;
+            };
+
+            Because of = () =>
+            {
+                returnedRecipes = new List<Recipe>(_database.GetAllRecipes().Result);
+            };
+
+            It should_return_all_recipes = () =>
+            {
+                returnedRecipes.Should().BeEquivalentTo(recipes);
+            };
+        }
+        
         class When_adding_a_new_recipe_to_the_database
         {
             static Recipe recipe;
 
-            private Establish context = () => recipe =
-                new RecipeTestDataBuilder()
-                    .WithSteps(new StepTestDataBuilder().Build(), new StepTestDataBuilder().Build())
-                    .Build();
+            Establish context = () =>
+            {
+                recipe =
+                    new RecipeTestDataBuilder()
+                        .WithSteps(new StepTestDataBuilder().Build(), new StepTestDataBuilder().Build())
+                        .Build();
+            };
 
             Because of = () => _database.AddRecipe(recipe);
 
@@ -97,42 +138,7 @@ namespace Thymer.Tests.ServiceTests
                 }, options => options.Excluding(s => s.Id));
             };
         }
-
-        class When_retrieving_all_recipes
-        {
-            static readonly List<Recipe> recipes = new List<Recipe>();
-            static IReadOnlyList<Recipe> returnedRecipes;
-
-            Establish context => async () =>
-            {
-                var recipeOne = new RecipeTestDataBuilder()
-                    .WithSteps(
-                        new StepTestDataBuilder().Build(), 
-                        new StepTestDataBuilder().Build())
-                    .Build();
-                
-                var recipeTwo = new RecipeTestDataBuilder()
-                    .WithSteps(
-                        new StepTestDataBuilder().Build())
-                    .Build();
-                
-                recipes.Add(recipeOne);
-                recipes.Add(recipeTwo);
-
-                _database.Connection.InsertAllAsync(recipes);
-            };
-
-            Because of = () =>
-            {
-                returnedRecipes = new List<Recipe>(_database.GetAllRecipes().Result);
-            };
-
-            It should_return_all_recipes = () =>
-            {
-                returnedRecipes.Should().BeEquivalentTo(recipes);
-            };
-        }
-
+        
         class When_retrieving_a_recipe_that_does_not_exist
         {
             static readonly Func<Task> getRecipe = async () => await _database.GetRecipe(Guid.Empty);
