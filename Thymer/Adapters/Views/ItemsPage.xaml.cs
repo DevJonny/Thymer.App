@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using Thymer.Adapters.Services.Navigation;
 using Thymer.Adapters.ViewModels;
 using Xamarin.Forms;
@@ -35,19 +34,6 @@ namespace Thymer.Adapters.Views
 
             // Manually deselect item.
             ItemsListView.SelectedItem = null;
-        }
-
-        async void AddItem_Clicked(object sender, EventArgs e)
-        {
-            await _navigationService.NavigateTo<NewItemViewModel>();
-        }
-
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-
-            if (viewModel.Items.Count == 0)
-                viewModel.LoadItemsCommand.Execute(null);
         }
     }
 }

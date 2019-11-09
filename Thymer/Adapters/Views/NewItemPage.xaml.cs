@@ -1,7 +1,5 @@
-using System;
 using System.ComponentModel;
 using Thymer.Adapters.ViewModels;
-using Thymer.Ports.Messaging;
 using Xamarin.Forms;
 using TinyIoC;
 
@@ -19,16 +17,6 @@ namespace Thymer.Adapters.Views
             BindingContext = viewModel = TinyIoCContainer.Current.Resolve<NewItemViewModel>();
             
             InitializeComponent();
-        }
-
-        async void Save_Clicked(object sender, EventArgs e)
-        {
-            await viewModel.SaveNewRecipe();
-        }
-
-        async void Cancel_Clicked(object sender, EventArgs e)
-        {
-            await viewModel.Cancel();
         }
     }
 }

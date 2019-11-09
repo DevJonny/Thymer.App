@@ -81,7 +81,7 @@ namespace Thymer.Adapters.ViewModels
 
             backingStore = value;
             onChanged?.Invoke();
-            OnPropertyChanged(propertyName);
+//            OnPropertyChanged(propertyName);
             return true;
         }
     }

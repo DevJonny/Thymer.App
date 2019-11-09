@@ -1,6 +1,8 @@
+using Thymer.Adapters.Services.Database;
 using Thymer.Adapters.Services.Navigation;
 using Thymer.Models;
 using Thymer.Services;
+using Thymer.Services.Database;
 using TinyIoC;
 using Xamarin.Forms;
 
@@ -12,6 +14,7 @@ namespace Thymer
         {
             TinyIoCContainer.Current.Register<INavigationService, NavigationService>(new NavigationService(mainPage, new ViewLocator()));
             TinyIoCContainer.Current.Register<IDataStore<Item>>(new MockDataStore());
+            TinyIoCContainer.Current.Register<IAmADatabase>(new Database());
             TinyIoCContainer.Current.Register(MessagingCenter.Instance);
             
             TinyIoCContainer.Current.AutoRegister(type => type.Name.EndsWith("ViewModel"));

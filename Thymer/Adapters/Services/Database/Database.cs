@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -21,6 +22,14 @@ namespace Thymer.Adapters.Services.Database
             Connection = new SQLiteAsyncConnection(dbPath);
             Connection.CreateTableAsync<StoredRecipe>().Wait();
         }
+
+        public Database() 
+        {
+            var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "ThymerSQLite.db3");
+            
+            Connection = new SQLiteAsyncConnection(path);
+            Connection.CreateTableAsync<StoredRecipe>().Wait();
+        }
         
         public async Task AddRecipe(Recipe recipe)
         {
@@ -39,9 +48,9 @@ namespace Thymer.Adapters.Services.Database
             return JsonConvert.DeserializeObject<Recipe>(storedRecipe.Recipe);
         }
 
-        public async Task<IEnumerable<Recipe>> GetAllRecipes()
+        public IEnumerable<Recipe> GetAllRecipes()
         {
-            var storedRecipes = await _recipeTable.ToListAsync();
+            var storedRecipes = _recipeTable.ToListAsync().GetAwaiter().GetResult();
 
             return storedRecipes.Select(sr => JsonConvert.DeserializeObject<Recipe>(sr.Recipe));
         }

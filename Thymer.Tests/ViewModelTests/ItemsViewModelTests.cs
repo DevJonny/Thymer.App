@@ -1,37 +1,36 @@
 using FluentAssertions;
 using Machine.Specifications;
+using Thymer.Adapters.Services.Database;
 using Thymer.Adapters.ViewModels;
+using Thymer.Core.Models;
 using Thymer.Ports.Messaging;
+using Thymer.Tests.TestDataBuilders;
+using Thymer.Tests.TestDoubles;
+using Xamarin.Forms;
 
 namespace Thymer.Tests.ViewModelTests
 {
     [Subject("ItemsViewModel")]
     class ItemsViewModelTests : BaseViewModelTests
     {
-        class When_items_vm_is_loaded
-        {
-            static ItemsViewModel vm;
-            
-            Because of = () => vm = new ItemsViewModel(_navigationService, _messagingCenter);
-
-            It should_have_subscribed_to_add_item = () =>
-                _messagingCenter.Subscribers.Should().ContainSingle().Which.Should().BeEquivalentTo((vm, AddItem: Messages.AddRecipe, true));
-        }
-
-        class When_load_items_command_is_triggered
+        class When_items_view_model_is_created
         {
             static ItemsViewModel vm;
 
             Establish context = () =>
             {
-                vm = new ItemsViewModel(_navigationService, _messagingCenter);
-                
-            };
-                
-            Because of = () => vm.LoadItemsCommand.Execute(null);
+                var seed = new []
+                {
+                    new RecipeTestDataBuilder().WithSteps(new StepTestDataBuilder().Build(), new StepTestDataBuilder().Build()).Build(),
+                    new RecipeTestDataBuilder().WithSteps(new StepTestDataBuilder().Build()).Build()
+                };
 
-            private It should_have_loaded_saved_recipes = () =>
-                vm.Items.Count.Should().Be(6);
+                _database.Seed(seed);
+            };
+
+            Because of = () => vm = new ItemsViewModel(_navigationService, _database);
+
+            It should_have_loaded_saved_recipes = () => vm.Items.Count.Should().Be(2);
         }
     }
 }

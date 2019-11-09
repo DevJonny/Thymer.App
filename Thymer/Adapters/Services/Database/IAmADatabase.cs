@@ -12,6 +12,6 @@ namespace Thymer.Services.Database
         
         Task AddRecipe(Recipe recipe);
         Task<Recipe> GetRecipe(Guid id);
-        Task<IEnumerable<Recipe>> GetAllRecipes();
+        IEnumerable<Recipe> GetAllRecipes();
     }
 }

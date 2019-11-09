@@ -2,41 +2,38 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Thymer.Adapters.Services.Navigation;
-using Thymer.Adapters.Views;
 using Thymer.Core.Models;
-using Thymer.Models;
-using Thymer.Ports.Messaging;
+using Thymer.Services.Database;
 using Xamarin.Forms;
 
 namespace Thymer.Adapters.ViewModels
 {
     public class ItemsViewModel : ViewModelBase
     {
-        public ObservableCollection<Item> Items { get; }
-        public Command LoadItemsCommand { get; }
+        public ObservableCollection<Recipe> Items { get; }
+        public ICommand Add { get; }
+        public ICommand Refresh { get; }
 
         private readonly INavigationService _navigationService;
-        private readonly IMessagingCenter _messagingCenter;
+        private readonly IAmADatabase _database;
 
-        public ItemsViewModel(INavigationService navigationService, IMessagingCenter messagingCenter) : base(navigationService)
-        {
+        public ItemsViewModel(INavigationService navigationService, IAmADatabase database) : base(navigationService)
+        {    
             _navigationService = navigationService;
-            _messagingCenter = messagingCenter;
+            _database = database;
             
             Title = "Browse";
-            Items = new ObservableCollection<Item>();
-            LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
+            Items = new ObservableCollection<Recipe>();
+            
+            Add = new Command(async () => await AddRecipe());
+            Refresh = new Command(LoadRecipes);
 
-            messagingCenter.Subscribe<NewItemPage, Recipe>(this, Messages.AddRecipe, async (obj, recipe) =>
-            {
-                Recipe newItem = recipe;
-//                Items.Add(newItem);
-//                await DataStore.AddItemAsync(newItem);
-            });
+            LoadRecipes();
         }
-
-        async Task ExecuteLoadItemsCommand()
+        
+        private void LoadRecipes()
         {
             if (IsBusy)
                 return;
@@ -46,11 +43,10 @@ namespace Thymer.Adapters.ViewModels
             try
             {
                 Items.Clear();
-                var items = await DataStore.GetItemsAsync(true);
+                var items = _database.GetAllRecipes();
+                
                 foreach (var item in items)
-                {
                     Items.Add(item);
-                }
             }
             catch (Exception ex)
             {
@@ -60,6 +56,11 @@ namespace Thymer.Adapters.ViewModels
             {
                 IsBusy = false;
             }
+        }
+
+        private async Task AddRecipe()
+        {
+            await _navigationService.NavigateTo<NewItemViewModel>();
         }
     }
 }

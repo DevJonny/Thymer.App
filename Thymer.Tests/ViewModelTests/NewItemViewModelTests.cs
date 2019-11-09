@@ -1,8 +1,10 @@
+using System;
+using System.Collections.Generic;
 using FluentAssertions;
 using Machine.Specifications;
 using Thymer.Adapters.ViewModels;
 using Thymer.Core.Models;
-using Thymer.Ports.Messaging;
+using Thymer.Models;
 
 namespace Thymer.Tests.ViewModelTests
 { 
@@ -16,7 +18,7 @@ namespace Thymer.Tests.ViewModelTests
         {
             static NewItemViewModel vm;
 
-            Because of = () => vm = new NewItemViewModel(_navigationService, _messagingCenter);
+            Because of = () => vm = new NewItemViewModel(_navigationService, _database);
 
             It should_have_set_timer_fields_to_defaults = () =>
             {
@@ -29,21 +31,24 @@ namespace Thymer.Tests.ViewModelTests
         class When_saving_new_recipe
         {
             static NewItemViewModel vm;
+            static Guid id;
 
             Establish context = () =>
             {
-                vm = new NewItemViewModel(_navigationService, _messagingCenter)
+                vm = new NewItemViewModel(_navigationService, _database)
                 {
-                    Recipe = new Recipe(name, description)    
+                    Recipe = new Recipe(name, description)
                 };
+
+                id = vm.Recipe.Id;
             };
             
             Because of = () => vm.SaveNewRecipe();
 
-            It should_have_sent_add_item = () =>
-                _messagingCenter.SentMessages
+            It should_have_added_one_item = () =>
+                _database.StoredRecipes
                     .Should().ContainSingle()
-                    .Which.Should().BeEquivalentTo((vm, Messages.AddRecipe, new Recipe(name, description)));
+                    .Which.Should().BeEquivalentTo(new Recipe(id, name, description, new List<Step>()));
         }
 
         class When_setting_properties
@@ -52,12 +57,12 @@ namespace Thymer.Tests.ViewModelTests
             
             Establish context = () =>
             {
-                vm = new NewItemViewModel(_navigationService, _messagingCenter);
+                vm = new NewItemViewModel(_navigationService, _database);
             };
 
-            private Because of = () =>
+            Because of = () =>
             {
-                vm.Name = name;
+                vm.RecipeName = name;
                 vm.Description = description;
             };
 
