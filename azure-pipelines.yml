@@ -35,5 +35,6 @@ steps:
 - task: DotNetCoreCLI@2
   inputs:
     command: 'test'
+    arguments: '-v normal'
     projects: './Thymer.Tests'
     testRunTitle: 'Thymer Tests'
