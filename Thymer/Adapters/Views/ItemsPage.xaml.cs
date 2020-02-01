@@ -30,7 +30,7 @@ namespace Thymer.Adapters.Views
             if (item == null)
                 return;
 
-            await Navigation.PushAsync(new ItemDetailPage(new ItemDetailViewModel(_navigationService, item)));
+            await Shell.Current.GoToAsync("//addRecipe");
 
             // Manually deselect item.
             ItemsListView.SelectedItem = null;

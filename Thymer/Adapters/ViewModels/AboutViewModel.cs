@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Windows.Input;
+using MvvmHelpers;
 using Thymer.Adapters.Services.Navigation;
 using Xamarin.Forms;
 
 namespace Thymer.Adapters.ViewModels
 {
-    public class AboutViewModel : ViewModelBase
+    public class AboutViewModel : BaseViewModel
     {
-        public AboutViewModel(INavigationService navigationService) : base(navigationService)
+        public AboutViewModel(INavigationService navigationService)
         {
             Title = "About";
 

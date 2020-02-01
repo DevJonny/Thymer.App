@@ -1,13 +1,15 @@
 using System.Threading.Tasks;
 using System.Windows.Input;
+using MvvmHelpers;
 using Thymer.Adapters.Services.Navigation;
 using Thymer.Core.Models;
+using Thymer.Models;
 using Thymer.Services.Database;
 using Xamarin.Forms;
 
 namespace Thymer.Adapters.ViewModels
 {
-    public class NewItemViewModel : ViewModelBase
+    public class NewItemViewModel : BaseViewModel
     {
         public Recipe Recipe { get; } = new Recipe();
         public ICommand Save { get; }
@@ -17,7 +19,7 @@ namespace Thymer.Adapters.ViewModels
             get => _name;
             set
             {
-                SetPropertyAndRaise(ref _name, value, nameof(Name));
+                SetProperty(ref _name, value, nameof(Name));
                 Recipe.Title = _name;
             }
         }
@@ -27,7 +29,7 @@ namespace Thymer.Adapters.ViewModels
             get => _description;
             set
             {
-                SetPropertyAndRaise(ref _description, value, nameof(Description));
+                SetProperty(ref _description, value, nameof(Description));
                 Recipe.Description = _description;
             }
         }
@@ -35,7 +37,7 @@ namespace Thymer.Adapters.ViewModels
         private readonly INavigationService _navigationService;
         private readonly IAmADatabase _database;
         
-        public NewItemViewModel(INavigationService navigationService, IAmADatabase database) : base(navigationService)
+        public NewItemViewModel(INavigationService navigationService, IAmADatabase database)    
         {
             _navigationService = navigationService;
             _database = database;

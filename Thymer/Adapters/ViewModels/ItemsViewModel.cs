@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using MvvmHelpers;
 using Thymer.Adapters.Services.Navigation;
 using Thymer.Core.Models;
 using Thymer.Services.Database;
@@ -10,7 +11,7 @@ using Xamarin.Forms;
 
 namespace Thymer.Adapters.ViewModels
 {
-    public class ItemsViewModel : ViewModelBase
+    public class ItemsViewModel : BaseViewModel
     {
         public ObservableCollection<Recipe> Items { get; }
         public ICommand Add { get; }
@@ -19,7 +20,7 @@ namespace Thymer.Adapters.ViewModels
         private readonly INavigationService _navigationService;
         private readonly IAmADatabase _database;
 
-        public ItemsViewModel(INavigationService navigationService, IAmADatabase database) : base(navigationService)
+        public ItemsViewModel(INavigationService navigationService, IAmADatabase database)
         {    
             _navigationService = navigationService;
             _database = database;

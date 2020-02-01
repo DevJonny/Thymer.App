@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using MvvmHelpers;
 using Thymer.Adapters.Services.Navigation;
-using Thymer.Adapters.ViewModels;
 
 namespace Thymer.Tests.TestDoubles
 {
@@ -19,7 +19,7 @@ namespace Thymer.Tests.TestDoubles
             _previousPage = previousPage;
         }
         
-        public async Task NavigateTo<TViewModel>() where TViewModel : ViewModelBase
+        public async Task NavigateTo<TViewModel>() where TViewModel : BaseViewModel
         {
             LastNavigatedTo = _routeMapping[typeof(TViewModel)];
 

@@ -1,11 +1,11 @@
 ﻿using System.Threading.Tasks;
-using Thymer.Adapters.ViewModels;
+using MvvmHelpers;
 
 namespace Thymer.Adapters.Services.Navigation
 {
     public interface INavigationService
     {
-        Task NavigateTo<TViewModel>() where TViewModel : ViewModelBase;
+        Task NavigateTo<TViewModel>() where TViewModel : BaseViewModel;
 
         Task NavigateBackToRoot();
 

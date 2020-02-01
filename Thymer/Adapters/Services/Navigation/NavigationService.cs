@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Thymer.Adapters.ViewModels;
+using MvvmHelpers;
 using Xamarin.Forms;
 
 namespace Thymer.Adapters.Services.Navigation
@@ -15,7 +15,7 @@ namespace Thymer.Adapters.Services.Navigation
             _routeBindings = routeBindings;
         }
 
-        public async Task NavigateTo<TViewModel>() where TViewModel : ViewModelBase
+        public async Task NavigateTo<TViewModel>() where TViewModel : BaseViewModel
         {
             var route = _routeBindings[typeof(TViewModel)];
             
