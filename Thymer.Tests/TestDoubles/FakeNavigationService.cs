@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using MvvmHelpers;
 using Thymer.Adapters.Services.Navigation;
@@ -23,7 +24,16 @@ namespace Thymer.Tests.TestDoubles
         {
             LastNavigatedTo = _routeMapping[typeof(TViewModel)];
 
-            await Task.Run(() => {});
+            await Task.Run(() => { });
+        }
+
+        public async Task NavigateTo<TViewModel>(params (string name, string value)[] queryParams) where TViewModel : BaseViewModel
+        {
+            var queryString = string.Join("&", queryParams.Select(q => $"{q.name}={q.value}"));
+
+            LastNavigatedTo = $"{_routeMapping[typeof(TViewModel)]}?{queryString}";
+
+            await Task.Run(() => { });
         }
 
         public async Task NavigateBackToRoot()

@@ -5,7 +5,7 @@ namespace Thymer.Adapters.Services.Navigation
 {
     public interface INavigationService
     {
-        Task NavigateTo<TViewModel>() where TViewModel : BaseViewModel;
+        Task NavigateTo<TViewModel>(params (string name, string value)[] queryParams) where TViewModel : BaseViewModel;
 
         Task NavigateBackToRoot();
 
