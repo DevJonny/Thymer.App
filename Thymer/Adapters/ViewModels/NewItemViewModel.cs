@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Thymer.Adapters.Services.Navigation;
@@ -9,21 +10,30 @@ namespace Thymer.Adapters.ViewModels
 {
     public class NewItemViewModel : ViewModelBase
     {
+        public Recipe Recipe { get; } = new Recipe();
         public ICommand Save { get; }
         public ICommand Cancel { get; }
-        
-        public string RecipeName
+
+        public string Name
         {
-            get => _recipeName;
-            set => SetPropertyAndRaise(ref _recipeName, value, nameof(RecipeName));
+            get => _name;
+            set
+            {
+                SetPropertyAndRaise(ref _name, value, nameof(Name));
+                Recipe.Title = _name;
+            }
         }
 
         public string Description
         {
             get => _description;
-            set => SetPropertyAndRaise(ref _description, value, nameof(Description));
+            set
+            {
+                SetPropertyAndRaise(ref _description, value, nameof(Description));
+                Recipe.Description = _description;
+            }
         }
-        
+
         private readonly INavigationService _navigationService;
         private readonly IAmADatabase _database;
         
@@ -38,18 +48,18 @@ namespace Thymer.Adapters.ViewModels
 
         public async Task SaveNewRecipe()
         {
-            var recipe = new Recipe(RecipeName, Description);
+            var recipe = new Recipe(Recipe.Id, Name, Description, Recipe.Steps);
             
-            _database.AddRecipe(recipe);
-            await _navigationService.NavigateBack();
+            await _database.AddRecipe(recipe);
+            await _navigationService.NavigateBackToRoot();
         }
 
         public async Task CancelNewRecipe()
         {
-            await _navigationService.NavigateBack();
+            await _navigationService.NavigateBackToRoot();
         }
 
-        private string _recipeName = string.Empty;
+        private string _name = string.Empty;
         private string _description = string.Empty;
     }
 }

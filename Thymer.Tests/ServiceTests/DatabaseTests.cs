@@ -59,7 +59,7 @@ namespace Thymer.Tests.ServiceTests
 
             Because of = () =>
             {
-                returnedRecipes = new List<Recipe>(_database.GetAllRecipes().Result);
+                returnedRecipes = new List<Recipe>(_database.GetAllRecipes());
             };
 
             It should_return_all_recipes = () =>

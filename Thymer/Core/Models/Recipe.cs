@@ -7,7 +7,7 @@ namespace Thymer.Core.Models
 {
     public class Recipe
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; } = Guid.NewGuid();
         public string Title { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public List<Step> Steps { get; } = new List<Step>();

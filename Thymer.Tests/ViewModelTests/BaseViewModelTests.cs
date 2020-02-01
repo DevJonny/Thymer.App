@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using Machine.Specifications;
 using Thymer.Adapters.Services.Navigation;
 using Thymer.Models;
@@ -10,13 +12,17 @@ namespace Thymer.Tests.ViewModelTests
 {
     public class BaseViewModelTests
     {
-        protected static INavigationService _navigationService;
+        protected static FakeNavigationService _navigationService;
         protected static FakeMessagingCenter _messagingCenter;
         protected static FakeDatabase _database;
         
         protected Establish context = () =>
         {
-            _navigationService = new NavigationService(null, new ViewLocator());
+            ContainerRegistration.Register();
+
+            var routeMappings = TinyIoCContainer.Current.Resolve<IDictionary<Type, string>>();
+
+            _navigationService = new FakeNavigationService(routeMappings);
             _messagingCenter = new FakeMessagingCenter();
             _database = new FakeDatabase();
 

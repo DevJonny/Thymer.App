@@ -1,56 +1,31 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Thymer.Adapters.ViewModels;
 using Xamarin.Forms;
-using System.Linq;
 
 namespace Thymer.Adapters.Services.Navigation
 {
     public class NavigationService : INavigationService
     {
-        private readonly IHaveMainPage _presentationRoot;
-        private readonly IViewLocator _viewLocator;
+        private readonly IDictionary<Type, string> _routeBindings;
 
-        private INavigation Navigator => _presentationRoot.MainPage.Navigation;
-
-        public NavigationService(IHaveMainPage presentationRoot, IViewLocator viewLocator)
+        public NavigationService(IDictionary<Type, string> routeBindings)
         {
-            _presentationRoot = presentationRoot;
-            _viewLocator = viewLocator;
+            _routeBindings = routeBindings;
         }
 
         public async Task NavigateTo<TViewModel>() where TViewModel : ViewModelBase
         {
-            var page = _viewLocator.CreateAndBindPageFor<TViewModel>(out var viewModel);
-
-            await viewModel.BeforeFirstShown();
-
-            await Navigator.PushAsync(page);
-        }
-
-        public async Task NavigateBack()
-        {
-            var dismissing = Navigator.NavigationStack.Last().BindingContext as ViewModelBase;
-
-            await Navigator.PopAsync();
-
-            dismissing?.AfterDismissed();
+            var route = _routeBindings[typeof(TViewModel)];
+            
+            await Shell.Current.GoToAsync(route);
         }
 
         public async Task NavigateBackToRoot()
         {
-            var toDismiss = Navigator
-                .NavigationStack
-                .Skip(1)
-                .Select(vw => vw.BindingContext)
-                .OfType<ViewModelBase>()
-                .ToArray();
-
-            await Navigator.PopToRootAsync();
-
-            foreach (ViewModelBase viewModel in toDismiss)
-            {
-                viewModel.AfterDismissed();
-            }
+            var route = _routeBindings[typeof(ItemsViewModel)];
+            await Shell.Current.GoToAsync(route);
         }        
     }
 }

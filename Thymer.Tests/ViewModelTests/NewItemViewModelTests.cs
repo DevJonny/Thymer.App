@@ -32,15 +32,14 @@ namespace Thymer.Tests.ViewModelTests
         {
             static NewItemViewModel vm;
             static Guid id;
-
+            
             Establish context = () =>
             {
-                vm = new NewItemViewModel(_navigationService, _database)
-                {
-                    Recipe = new Recipe(name, description)
-                };
+                vm = new NewItemViewModel(_navigationService, _database);
 
                 id = vm.Recipe.Id;
+                vm.Name = name;
+                vm.Description = description;
             };
             
             Because of = () => vm.SaveNewRecipe();
@@ -49,6 +48,21 @@ namespace Thymer.Tests.ViewModelTests
                 _database.StoredRecipes
                     .Should().ContainSingle()
                     .Which.Should().BeEquivalentTo(new Recipe(id, name, description, new List<Step>()));
+
+            It should_navigate_back_to_home = () => _navigationService.LastNavigatedTo.Should().Be("//recipes");
+        }
+
+        class When_cancelling_new_recipe
+        {
+            static NewItemViewModel vm;
+
+            Establish context = () => { vm = new NewItemViewModel(_navigationService, _database); };
+
+            Because of = () => vm.CancelNewRecipe();
+
+            It should_have_navigated_back_to_home = () => _navigationService.LastNavigatedTo.Should().Be("//recipes");
+
+            It should_not_have_stored_anything = () => _database.StoredRecipes.Should().BeEmpty();
         }
 
         class When_setting_properties
@@ -62,7 +76,7 @@ namespace Thymer.Tests.ViewModelTests
 
             Because of = () =>
             {
-                vm.RecipeName = name;
+                vm.Name = name;
                 vm.Description = description;
             };
 

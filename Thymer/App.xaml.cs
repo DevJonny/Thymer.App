@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using Thymer.Adapters.Services.Navigation;
+using Thymer.Adapters.Views;
 using Xamarin.Forms;
 
 namespace Thymer
@@ -11,7 +12,7 @@ namespace Thymer
         {
             InitializeComponent();
             
-            ContainerRegistration.Register(this);
+            ContainerRegistration.Register();
 
             MainPage = new AppShell();
         }

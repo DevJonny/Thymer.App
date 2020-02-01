@@ -1,7 +1,9 @@
+using System;
+using System.Collections.Generic;
 using Thymer.Adapters.Services.Database;
 using Thymer.Adapters.Services.Navigation;
-using Thymer.Models;
-using Thymer.Services;
+using Thymer.Adapters.ViewModels;
+using Thymer.Adapters.Views;
 using Thymer.Services.Database;
 using TinyIoC;
 using Xamarin.Forms;
@@ -10,16 +12,28 @@ namespace Thymer
 {
     public static class ContainerRegistration
     {
-        public static void Register(IHaveMainPage mainPage)
+        public static void Register()
         {
-            TinyIoCContainer.Current.Register<INavigationService, NavigationService>(new NavigationService(mainPage, new ViewLocator()));
-            TinyIoCContainer.Current.Register<IDataStore<Item>>(new MockDataStore());
+            _viewModelRoutes.Clear();
+            
+            RegisterRoute<ItemsViewModel, ItemsPage>("//recipes");
+            RegisterRoute<NewItemViewModel, NewItemPage>("//addRecipe");
+            RegisterRoute<ItemDetailViewModel, ItemDetailViewModel>("//recipe");
+
+            TinyIoCContainer.Current.Register(_viewModelRoutes);
+            TinyIoCContainer.Current.Register<INavigationService, NavigationService>();
             TinyIoCContainer.Current.Register<IAmADatabase>(new Database());
             TinyIoCContainer.Current.Register(MessagingCenter.Instance);
             
             TinyIoCContainer.Current.AutoRegister(type => type.Name.EndsWith("ViewModel"));
-            TinyIoCContainer.Current.AutoRegister(type => type.Name.EndsWith("Page"));
-            TinyIoCContainer.Current.AutoRegister(type => type.Name.EndsWith("View"));
+        }
+
+        private static readonly IDictionary<Type, string> _viewModelRoutes = new Dictionary<Type, string>();
+        
+        private static void RegisterRoute<TViewModel, TPage>(string route)
+        {
+            _viewModelRoutes.Add(typeof(TViewModel), route);
+            Routing.RegisterRoute(route, typeof(TPage));
         }
     }
 }
