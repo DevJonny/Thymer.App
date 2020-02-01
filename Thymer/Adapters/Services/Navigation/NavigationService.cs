@@ -24,8 +24,12 @@ namespace Thymer.Adapters.Services.Navigation
 
         public async Task NavigateBackToRoot()
         {
-            var route = _routeBindings[typeof(ItemsViewModel)];
-            await Shell.Current.GoToAsync(route);
-        }        
+            await Shell.Current.Navigation.PopToRootAsync();
+        }
+
+        public async Task NavigateBack()
+        {
+            await Shell.Current.Navigation.PopModalAsync();
+        }
     }
 }

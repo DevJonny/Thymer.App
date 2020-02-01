@@ -7,9 +7,8 @@ namespace Thymer.Adapters.Services.Navigation
     {
         Task NavigateTo<TViewModel>() where TViewModel : ViewModelBase;
 
-        /// <summary>
-        /// Navigate back to the element at the root of the navigation stack
-        /// </summary>
         Task NavigateBackToRoot();
+
+        Task NavigateBack();
     }
 }

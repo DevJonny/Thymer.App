@@ -11,10 +11,12 @@ namespace Thymer.Tests.TestDoubles
         public string LastNavigatedTo { get; private set; }
 
         private readonly IDictionary<Type, string> _routeMapping;
+        private readonly string _previousPage;
         
-        public FakeNavigationService(IDictionary<Type, string> routeMapping)
+        public FakeNavigationService(IDictionary<Type, string> routeMapping, string previousPage = null)
         {
             _routeMapping = routeMapping;
+            _previousPage = previousPage;
         }
         
         public async Task NavigateTo<TViewModel>() where TViewModel : ViewModelBase
@@ -26,7 +28,14 @@ namespace Thymer.Tests.TestDoubles
 
         public async Task NavigateBackToRoot()
         {
-            LastNavigatedTo = _routeMapping[typeof(ItemsViewModel)];
+            LastNavigatedTo = "//root";
+
+            await Task.Run(() => { });
+        }
+
+        public async Task NavigateBack()
+        {
+            LastNavigatedTo = _previousPage;
 
             await Task.Run(() => { });
         }

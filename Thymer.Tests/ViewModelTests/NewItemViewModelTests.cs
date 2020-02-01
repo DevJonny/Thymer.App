@@ -49,20 +49,7 @@ namespace Thymer.Tests.ViewModelTests
                     .Should().ContainSingle()
                     .Which.Should().BeEquivalentTo(new Recipe(id, name, description, new List<Step>()));
 
-            It should_navigate_back_to_home = () => _navigationService.LastNavigatedTo.Should().Be("//recipes");
-        }
-
-        class When_cancelling_new_recipe
-        {
-            static NewItemViewModel vm;
-
-            Establish context = () => { vm = new NewItemViewModel(_navigationService, _database); };
-
-            Because of = () => vm.CancelNewRecipe();
-
-            It should_have_navigated_back_to_home = () => _navigationService.LastNavigatedTo.Should().Be("//recipes");
-
-            It should_not_have_stored_anything = () => _database.StoredRecipes.Should().BeEmpty();
+            It should_navigate_back_to_home = () => _navigationService.LastNavigatedTo.Should().Be("//root");
         }
 
         class When_setting_properties

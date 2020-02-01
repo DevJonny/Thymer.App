@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Thymer.Adapters.Services.Navigation;
@@ -12,7 +11,6 @@ namespace Thymer.Adapters.ViewModels
     {
         public Recipe Recipe { get; } = new Recipe();
         public ICommand Save { get; }
-        public ICommand Cancel { get; }
 
         public string Name
         {
@@ -43,7 +41,6 @@ namespace Thymer.Adapters.ViewModels
             _database = database;
             
             Save = new Command(async () => await SaveNewRecipe());
-            Cancel = new Command(async () => await CancelNewRecipe());
         }
 
         public async Task SaveNewRecipe()
@@ -51,11 +48,6 @@ namespace Thymer.Adapters.ViewModels
             var recipe = new Recipe(Recipe.Id, Name, Description, Recipe.Steps);
             
             await _database.AddRecipe(recipe);
-            await _navigationService.NavigateBackToRoot();
-        }
-
-        public async Task CancelNewRecipe()
-        {
             await _navigationService.NavigateBackToRoot();
         }
 

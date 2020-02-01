@@ -14,7 +14,8 @@ using Thymer.Tests.TestDataBuilders;
 
 namespace Thymer.Tests.ServiceTests
 {
-    public class DatabaseTests
+    [Subject("Database")]
+    class DatabaseTests
     {
         private const string title = "Roast Beef";
         private const string description = "The best of the roasts";

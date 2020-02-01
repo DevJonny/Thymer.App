@@ -31,7 +31,7 @@
     <!-- Your Pages -->
     <TabBar>
         <Tab Title="Recipes" Icon="tab_feed.png">
-            <ShellContent Route="items" ContentTemplate="{DataTemplate local:ItemsPage}" />
+            <ShellContent Route="recipes" ContentTemplate="{DataTemplate local:ItemsPage}" />
         </Tab>
         <Tab Title="About" Icon="tab_about.png">
             <ShellContent Route="about" ContentTemplate="{DataTemplate local:AboutPage}" />
