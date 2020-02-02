@@ -19,11 +19,17 @@ namespace Thymer.Adapters.Services.Navigation
 
         public async Task NavigateTo<TViewModel>(params (string name, string value)[] queryParams) where TViewModel : BaseViewModel
         {
-            var route = _routeBindings[typeof(TViewModel)];
+            var route = $"{_routeBindings[typeof(TViewModel)]}";
+            
+            if (queryParams is null)
+            {
+                await Shell.Current.GoToAsync(route);
+                return;
+            }
 
             if (queryParams.Any())
             {
-                var queryString = string.Join("&", queryParams.Select(q => $"{q.name}={q.value}"));
+                var queryString = "?" + string.Join("&", queryParams.Select(q => $"{q.name}={q.value}"));
 
                 route += queryString;
             }

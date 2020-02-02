@@ -16,9 +16,10 @@ namespace Thymer
         {
             _viewModelRoutes.Clear();
             
-            RegisterRoute<ItemsViewModel, ItemsPage>("//recipes");
-            RegisterRoute<NewItemViewModel, NewItemPage>("//addRecipe");
-            RegisterRoute<ItemDetailViewModel, ItemDetailViewModel>("//recipe");
+            RegisterRoute<ItemsViewModel, ItemsPage>("recipes");
+            RegisterRoute<NewItemViewModel, NewItemPage>("addRecipe");
+            RegisterRoute<AddStepViewModel, AddStepPage>("addStep");
+            RegisterRoute<ItemDetailViewModel, ItemDetailPage>("recipe");
 
             TinyIoCContainer.Current.Register(_viewModelRoutes);
             TinyIoCContainer.Current.Register<INavigationService, NavigationService>();

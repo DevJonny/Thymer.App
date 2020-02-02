@@ -8,15 +8,47 @@
     x:Class="Thymer.Adapters.Views.NewItemPage" 
     Title="New Recipe">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Cancel" Command="{Binding Cancel}" />
         <ToolbarItem Text="Save" Command="{Binding Save}" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout Spacing="20" Padding="15">
-            <Label Text="Text" FontSize="Medium" />
-            <Entry Text="{Binding Name}" FontSize="Small" />
-            <Label Text="Description" FontSize="Medium" />
-            <Editor Text="{Binding Description}" FontSize="Small" Margin="0" />
+            <Label 
+                Text="Recipe Name" 
+                FontSize="Medium" />
+            <Entry 
+                Text="{Binding Name}" 
+                FontSize="Small" 
+                Placeholder="A name for your recipe..." />
+            <Label 
+                Text="Recipe Description" 
+                FontSize="Medium" />
+            <Editor 
+                Text="{Binding Description}" 
+                FontSize="Small" 
+                Margin="0"
+                Placeholder="Description of your recipe here..."/>
+            <Label
+                Text="Recipe Steps"
+                FontSize="Medium" />
+            <ListView 
+                ItemsSource="{Binding Steps}" 
+                VerticalOptions="FillAndExpand" 
+                HasUnevenRows="true"                
+                CachingStrategy="RecycleElement" 
+                SelectedItem="{Binding SelectedStep}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Padding="10">
+                                <Label Text="{Binding Display}" LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Button
+                Text="Add Step"
+                Command="{Binding AddStep}" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

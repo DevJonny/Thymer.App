@@ -70,5 +70,19 @@ namespace Thymer.Tests.ViewModelTests
             It should_have_set_recipe_title_to_name = () => vm.Recipe.Title.Should().Be(name);
             It should_have_set_recipe_description_to_description = () => vm.Recipe.Description.Should().Be(description);
         }
+
+        class When_adding_a_new_step
+        {
+            static NewItemViewModel vm;
+            
+            Establish context = () =>
+            {
+                vm = new NewItemViewModel(_navigationService, _database);  
+            };
+            
+            Because of = () => vm.AddStepToRecipe();
+
+            It should_navigate_to_add_step_with_recipe_id = () => _navigationService.LastNavigatedTo.Should().Be($"//addStep?recipeId={vm.Recipe.Id}");
+        }
     }
 }

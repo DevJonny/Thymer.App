@@ -13,6 +13,7 @@ namespace Thymer.Adapters.ViewModels
     {
         public Recipe Recipe { get; } = new Recipe();
         public ICommand Save { get; }
+        public ICommand AddStep { get; }
 
         public string Name
         {
@@ -34,6 +35,12 @@ namespace Thymer.Adapters.ViewModels
             }
         }
 
+        public Step SelectedStep
+        {
+            get => _selectedStep;
+            set => SetProperty(ref _selectedStep, value, nameof(SelectedStep));
+        }
+
         private readonly INavigationService _navigationService;
         private readonly IAmADatabase _database;
         
@@ -43,6 +50,7 @@ namespace Thymer.Adapters.ViewModels
             _database = database;
             
             Save = new Command(async () => await SaveNewRecipe());
+            AddStep = new Command(async () => await AddStepToRecipe());
         }
 
         public async Task SaveNewRecipe()
@@ -53,7 +61,13 @@ namespace Thymer.Adapters.ViewModels
             await _navigationService.NavigateBackToRoot();
         }
 
+        public async Task AddStepToRecipe()
+        {
+            await _navigationService.NavigateTo<AddStepViewModel>(("recipeId", $"{Recipe.Id}"));
+        }
+
         private string _name = string.Empty;
         private string _description = string.Empty;
+        private Step _selectedStep = null;
     }
 }
