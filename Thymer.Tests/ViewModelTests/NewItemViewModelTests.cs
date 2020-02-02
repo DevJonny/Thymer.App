@@ -82,7 +82,7 @@ namespace Thymer.Tests.ViewModelTests
             
             Because of = () => vm.AddStepToRecipe();
 
-            It should_navigate_to_add_step_with_recipe_id = () => _navigationService.LastNavigatedTo.Should().Be($"//addStep?recipeId={vm.Recipe.Id}");
+            It should_navigate_to_add_step_with_recipe_id = () => _navigationService.LastNavigatedTo.Should().Be($"addStep?recipeId={vm.Recipe.Id}");
         }
     }
 }
