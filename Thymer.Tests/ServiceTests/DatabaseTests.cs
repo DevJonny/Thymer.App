@@ -21,8 +21,12 @@ namespace Thymer.Tests.ServiceTests
         private const string description = "The best of the roasts";
         private const string stepOneName = "Beef";
         private const string stepTwoName = "Roast Potatoes";
-        private const long stepOneDuration = 500;
-        private const long stepTwoDuration = 250;
+        private const int stepOneHours = 1;
+        private const int stepOneMinutes = 2;
+        private const int stepOneSeconds = 3;
+        private const int stepTwoHours = 4;
+        private const int stepTwoMinutes = 5;
+        private const int stepTwoSeconds = 6;
 
         static IAmADatabase _database;
 
@@ -107,11 +111,15 @@ namespace Thymer.Tests.ServiceTests
                     .WithSteps(
                         new StepTestDataBuilder()
                             .WithName(stepOneName)
-                            .WithDuration(stepOneDuration)
+                            .WithHours(stepOneHours)
+                            .WithMinutes(stepOneMinutes)
+                            .WithSeconds(stepOneSeconds)
                             .Build(), 
                         new StepTestDataBuilder()
                             .WithName(stepTwoName)
-                            .WithDuration(stepTwoDuration)
+                            .WithHours(stepTwoHours)
+                            .WithMinutes(stepTwoMinutes)
+                            .WithSeconds(stepTwoSeconds)
                             .Build())
                     .Build();
 
@@ -134,8 +142,8 @@ namespace Thymer.Tests.ServiceTests
                 recipe.Description.Should().Be(description);
                 recipe.Steps.Should().BeEquivalentTo(new List<Step>
                 {
-                    new Step(stepOneName, stepOneDuration),
-                    new Step(stepTwoName, stepTwoDuration)
+                    new Step(stepOneName, stepOneHours, stepOneMinutes, stepOneSeconds),
+                    new Step(stepTwoName, stepTwoHours, stepTwoMinutes, stepTwoSeconds)
                 }, options => options.Excluding(s => s.Id));
             };
         }

@@ -9,10 +9,11 @@ namespace Thymer.Tests.TestDataBuilders
         {
             public Guid Id { get; set; } = Guid.NewGuid();
             public string Name { get; set; } = RandomString;
-            public long Duration { get; set; } = RandomLong;
+            public int Hours { get; set; } = _random.Next(24);
+            public int Minutes { get; set; } = _random.Next(59);
+            public int Seconds { get; set; } = _random.Next(59);
             
             private static string RandomString => $"{Guid.NewGuid()}";
-            private static long RandomLong => _random.Next();
             
             private static readonly Random _random = new Random();
         }
@@ -36,9 +37,21 @@ namespace Thymer.Tests.TestDataBuilders
             return this;
         }
 
-        public StepTestDataBuilder WithDuration(long duration)
+        public StepTestDataBuilder WithHours(int hours)
         {
-            _stepSpecification.Duration = duration;
+            _stepSpecification.Hours = hours;
+            return this;
+        }
+
+        public StepTestDataBuilder WithMinutes(int minutes)
+        {
+            _stepSpecification.Minutes = minutes;
+            return this;
+        }
+
+        public StepTestDataBuilder WithSeconds(int seconds)
+        {
+            _stepSpecification.Seconds = seconds;
             return this;
         }
 
@@ -47,7 +60,9 @@ namespace Thymer.Tests.TestDataBuilders
             return new Step(
                 _stepSpecification.Id,
                 _stepSpecification.Name,
-                _stepSpecification.Duration);
+                _stepSpecification.Hours,
+                _stepSpecification.Minutes,
+                _stepSpecification.Seconds);
         }
     }
 }
