@@ -11,7 +11,8 @@ namespace Thymer.Tests.ViewModelTests
     [Subject("NewItemViewModel")]
     class NewItemViewModelTests : BaseViewModelTests
     {
-        static readonly string name = "Roast Beef"; 
+        static readonly string name = "Roast Beef";
+        static readonly string uriEscapedName = Uri.EscapeDataString(name);
         static readonly string description = "The best of the roasts";
         
         class When_new_item_view_model_is_loaded
@@ -74,15 +75,15 @@ namespace Thymer.Tests.ViewModelTests
         class When_adding_a_new_step
         {
             static NewItemViewModel vm;
-            
-            Establish context = () =>
+
+            private Establish context = () =>
             {
-                vm = new NewItemViewModel(_navigationService, _database);  
+                vm = new NewItemViewModel(_navigationService, _database) {Name = name};
             };
             
             Because of = () => vm.AddStepToRecipe();
 
-            It should_navigate_to_add_step_with_recipe_id = () => _navigationService.LastNavigatedTo.Should().Be($"addStep?recipeId={vm.Recipe.Id}");
+            It should_navigate_to_add_step_with_recipe_id = () => _navigationService.LastNavigatedTo.Should().Be($"addStep?recipeTitle={uriEscapedName}");
         }
     }
 }

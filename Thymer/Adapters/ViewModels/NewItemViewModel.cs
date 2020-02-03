@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using MvvmHelpers;
@@ -63,7 +64,7 @@ namespace Thymer.Adapters.ViewModels
 
         public async Task AddStepToRecipe()
         {
-            await _navigationService.NavigateTo<AddStepViewModel>(("recipeId", $"{Recipe.Id}"));
+            await _navigationService.NavigateTo<AddStepViewModel>(("recipeTitle", $"{Uri.EscapeDataString(Recipe.Title)}"));
         }
 
         private string _name = string.Empty;
