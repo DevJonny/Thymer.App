@@ -3,11 +3,50 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Thymer.Adapters.Views.AddStepPage">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Save" Command="{Binding Save}" />
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Hello, world!"
-                   VerticalOptions="CenterAndExpand"
-                   HorizontalOptions="CenterAndExpand" />
+        <StackLayout Spacing="20" Padding="15">
+            <Label 
+                Text="Step Name" 
+                FontSize="Medium" />
+            <Entry 
+                Text="{Binding Name}" 
+                FontSize="Small" 
+                Placeholder="A name for your step..." />
+            <Label
+                Text="Step Duration"
+                FontSize="Large" />
+            <Label
+                Text="{Binding Duration}"
+                HorizontalTextAlignment="Center"
+                FontSize="Large"
+                />
+            <Label
+                Text="Hours"
+                FontSize="Large" />
+            <Picker
+                SelectedItem="1"
+                SelectedIndex="0"
+                ItemsSource="{Binding Hours}"
+                HorizontalOptions="FillAndExpand"/>
+            <Label
+                Text="Minutes"
+                FontSize="Large" />
+            <Picker
+                SelectedIndex="0"
+                ItemsSource="{Binding Minutes}"
+                FlexLayout.Grow="1"
+                HorizontalOptions="FillAndExpand" />
+            <Label
+                Text="Seconds"
+                FontSize="Large" />
+            <Picker
+                SelectedIndex="0"
+                ItemsSource="{Binding Seconds}"
+                FlexLayout.Grow="1"
+                HorizontalOptions="FillAndExpand" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

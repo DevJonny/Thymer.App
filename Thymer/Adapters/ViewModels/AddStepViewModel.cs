@@ -1,18 +1,78 @@
 using System;
 using MvvmHelpers;
+using Thymer.Services.Database;
 using Xamarin.Forms;
 
 namespace Thymer.Adapters.ViewModels
 {
-    [QueryProperty("RecipeId", "recipeId")]
+    [QueryProperty("RecipeTitle", "recipeTitle")]
     public class AddStepViewModel : BaseViewModel
     {
-        public string RecipeId
+        private readonly IAmADatabase _database;
+        
+        public AddStepViewModel(IAmADatabase database)
         {
-            get => _recipeId;
-            set => SetProperty(ref _recipeId, Uri.UnescapeDataString(value), nameof(RecipeId));
+            _database = database;
         }
 
-        private string _recipeId = string.Empty;
+        public string RecipeTitle
+        {
+            get => _recipeTitle;
+            set
+            {
+                SetProperty(ref _recipeTitle, Uri.UnescapeDataString(value), nameof(RecipeTitle));
+                Title = $"Add step to {_recipeTitle}";
+            }
+        }
+
+        public string Name { get => _name; set => SetProperty(ref _name, value, nameof(Name)); }
+
+        public string Duration
+        {
+            get => _duration; 
+            set => SetProperty(ref _duration, value, nameof(Duration));
+        }
+
+        public int Hours
+        {
+            get => _hours;
+            set
+            {
+                SetProperty(ref _hours, value, nameof(Hours));
+                UpdateDuration();
+            }
+        }
+
+        public int Minutes
+        {
+            get => _minutes;
+            set
+            {
+                SetProperty(ref _minutes, value, nameof(Minutes));
+                UpdateDuration();
+            }
+        }
+
+        public int Seconds
+        {
+            get => _seconds;
+            set
+            {
+                SetProperty(ref _seconds, value, nameof(Seconds));
+                UpdateDuration();
+            }
+        }
+
+        private void UpdateDuration()
+        {
+            Duration = $"{Hours:00}:{Minutes:00}:{Seconds:00}";
+        }
+
+        private string _recipeTitle = string.Empty;
+        private string _name = string.Empty;
+        private string _duration = "00:00:00";
+        private int _hours;
+        private int _minutes;
+        private int _seconds;
     }
 }
