@@ -21,32 +21,34 @@
             <Label
                 Text="{Binding Duration}"
                 HorizontalTextAlignment="Center"
-                FontSize="Large"
-                />
+                FontSize="Large" />
             <Label
                 Text="Hours"
                 FontSize="Large" />
             <Picker
-                SelectedItem="1"
-                SelectedIndex="0"
-                ItemsSource="{Binding Hours}"
-                HorizontalOptions="FillAndExpand"/>
+                Title="Select the number of Hours..."
+                SelectedItem="{Binding Hours}"
+                ItemsSource="{Binding ZeroToTwentyFour}"
+                HorizontalOptions="FillAndExpand"
+                FontSize="Large" />
             <Label
                 Text="Minutes"
                 FontSize="Large" />
             <Picker
-                SelectedIndex="0"
-                ItemsSource="{Binding Minutes}"
-                FlexLayout.Grow="1"
-                HorizontalOptions="FillAndExpand" />
+                Title="Select the number of Minutes..."
+                SelectedIndex="{Binding Minutes}"
+                ItemsSource="{Binding ZeroToFiftyNine}"
+                HorizontalOptions="FillAndExpand"
+                FontSize="Large" />
             <Label
                 Text="Seconds"
                 FontSize="Large" />
             <Picker
-                SelectedIndex="0"
-                ItemsSource="{Binding Seconds}"
-                FlexLayout.Grow="1"
-                HorizontalOptions="FillAndExpand" />
+                Title="Select the number of Seconds..."
+                SelectedIndex="{Binding Seconds}"
+                ItemsSource="{Binding ZeroToFiftyNine}"                
+                HorizontalOptions="FillAndExpand" 
+                FontSize="Large" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

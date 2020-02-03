@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using MvvmHelpers;
 using Thymer.Services.Database;
 using Xamarin.Forms;
@@ -63,11 +65,14 @@ namespace Thymer.Adapters.ViewModels
             }
         }
 
+        public List<int> ZeroToTwentyFour => Enumerable.Range(0, 24).ToList();
+        public List<int> ZeroToFiftyNine => Enumerable.Range(0, 59).ToList();
+
         private void UpdateDuration()
         {
             Duration = $"{Hours:00}:{Minutes:00}:{Seconds:00}";
         }
-
+        
         private string _recipeTitle = string.Empty;
         private string _name = string.Empty;
         private string _duration = "00:00:00";
