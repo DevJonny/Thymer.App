@@ -23,6 +23,7 @@ namespace Thymer.Tests.ViewModelTests
 
             It should_have_set_timer_fields_to_defaults = () =>
             {
+                vm.Title.Should().Be("New Recipe");
                 vm.Recipe.Title.Should().BeEmpty();
                 vm.Recipe.Description.Should().BeEmpty();
                 vm.Recipe.Steps.Count.Should().Be(0);
@@ -68,6 +69,7 @@ namespace Thymer.Tests.ViewModelTests
                 vm.Description = description;
             };
 
+            It should_have_set_title = () => vm.Title.Should().Be(name);
             It should_have_set_recipe_title_to_name = () => vm.Recipe.Title.Should().Be(name);
             It should_have_set_recipe_description_to_description = () => vm.Recipe.Description.Should().Be(description);
         }

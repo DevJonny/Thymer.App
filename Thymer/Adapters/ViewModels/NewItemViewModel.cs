@@ -22,6 +22,7 @@ namespace Thymer.Adapters.ViewModels
             set
             {
                 SetProperty(ref _name, value, nameof(Name));
+                Title = _name;
                 Recipe.Title = _name;
             }
         }
@@ -49,7 +50,8 @@ namespace Thymer.Adapters.ViewModels
         {
             _navigationService = navigationService;
             _database = database;
-            
+
+            Title = "New Recipe";
             Save = new Command(async () => await SaveNewRecipe());
             AddStep = new Command(async () => await AddStepToRecipe());
         }
