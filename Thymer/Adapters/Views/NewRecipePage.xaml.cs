@@ -8,13 +8,11 @@ namespace Thymer.Adapters.Views
     // Learn more about making custom code visible in the Xamarin.Forms previewer
     // by visiting https://aka.ms/xamarinforms-previewer
     [DesignTimeVisible(false)]
-    public partial class NewItemPage : ContentPage
+    public partial class NewRecipePage : ContentPage
     {
-        private NewItemViewModel viewModel;
-        
-        public NewItemPage()
+        public NewRecipePage()
         {
-            BindingContext = viewModel = TinyIoCContainer.Current.Resolve<NewItemViewModel>();
+            BindingContext = TinyIoCContainer.Current.Resolve<NewRecipeViewModel>();
             
             InitializeComponent();
         }

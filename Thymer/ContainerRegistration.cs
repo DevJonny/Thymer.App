@@ -16,8 +16,8 @@ namespace Thymer
         {
             _viewModelRoutes.Clear();
             
-            RegisterRoute<ItemsViewModel, ItemsPage>("recipes");
-            RegisterRoute<NewItemViewModel, NewItemPage>("addRecipe");
+            RegisterRoute<RecipeListViewModel, RecipeListPage>("recipes");
+            RegisterRoute<NewRecipeViewModel, NewRecipePage>("addRecipe");
             RegisterRoute<AddStepViewModel, AddStepPage>("addStep");
             RegisterRoute<ItemDetailViewModel, ItemDetailPage>("recipe");
 

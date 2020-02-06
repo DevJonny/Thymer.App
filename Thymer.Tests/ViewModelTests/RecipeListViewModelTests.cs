@@ -15,7 +15,7 @@ namespace Thymer.Tests.ViewModelTests
     {
         class When_items_view_model_is_created
         {
-            static ItemsViewModel vm;
+            static RecipeListViewModel vm;
 
             Establish context = () =>
             {
@@ -28,7 +28,7 @@ namespace Thymer.Tests.ViewModelTests
                 _database.Seed(seed);
             };
 
-            Because of = () => vm = new ItemsViewModel(_navigationService, _database);
+            Because of = () => vm = new RecipeListViewModel(_navigationService, _database);
 
             It should_have_loaded_saved_recipes = () => vm.Items.Count.Should().Be(2);
         }

@@ -17,9 +17,9 @@ namespace Thymer.Tests.ViewModelTests
         
         class When_new_item_view_model_is_loaded
         {
-            static NewItemViewModel vm;
+            static NewRecipeViewModel vm;
 
-            Because of = () => vm = new NewItemViewModel(_navigationService, _database);
+            Because of = () => vm = new NewRecipeViewModel(_navigationService, _database);
 
             It should_have_set_timer_fields_to_defaults = () =>
             {
@@ -32,12 +32,12 @@ namespace Thymer.Tests.ViewModelTests
 
         class When_saving_new_recipe
         {
-            static NewItemViewModel vm;
+            static NewRecipeViewModel vm;
             static Guid id;
             
             Establish context = () =>
             {
-                vm = new NewItemViewModel(_navigationService, _database);
+                vm = new NewRecipeViewModel(_navigationService, _database);
 
                 id = vm.Recipe.Id;
                 vm.Name = name;
@@ -56,11 +56,11 @@ namespace Thymer.Tests.ViewModelTests
 
         class When_setting_properties
         {
-            static NewItemViewModel vm;
+            static NewRecipeViewModel vm;
             
             Establish context = () =>
             {
-                vm = new NewItemViewModel(_navigationService, _database);
+                vm = new NewRecipeViewModel(_navigationService, _database);
             };
 
             Because of = () =>
@@ -76,11 +76,11 @@ namespace Thymer.Tests.ViewModelTests
 
         class When_adding_a_new_step
         {
-            static NewItemViewModel vm;
+            static NewRecipeViewModel vm;
 
             private Establish context = () =>
             {
-                vm = new NewItemViewModel(_navigationService, _database) {Name = name};
+                vm = new NewRecipeViewModel(_navigationService, _database) {Name = name};
             };
             
             Because of = () => vm.AddStepToRecipe();

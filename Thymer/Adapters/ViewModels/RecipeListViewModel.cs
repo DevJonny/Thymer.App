@@ -11,7 +11,7 @@ using Xamarin.Forms;
 
 namespace Thymer.Adapters.ViewModels
 {
-    public class ItemsViewModel : BaseViewModel
+    public class RecipeListViewModel : BaseViewModel
     {
         public ObservableCollection<Recipe> Items { get; }
         public ICommand Add { get; }
@@ -20,12 +20,12 @@ namespace Thymer.Adapters.ViewModels
         private readonly INavigationService _navigationService;
         private readonly IAmADatabase _database;
 
-        public ItemsViewModel(INavigationService navigationService, IAmADatabase database)
+        public RecipeListViewModel(INavigationService navigationService, IAmADatabase database)
         {    
             _navigationService = navigationService;
             _database = database;
             
-            Title = "Browse";
+            Title = "My Recipes";
             Items = new ObservableCollection<Recipe>();
             
             Add = new Command(async () => await AddRecipe());
@@ -61,7 +61,7 @@ namespace Thymer.Adapters.ViewModels
 
         private async Task AddRecipe()
         {
-            await _navigationService.NavigateTo<NewItemViewModel>();
+            await _navigationService.NavigateTo<NewRecipeViewModel>();
         }
     }
 }

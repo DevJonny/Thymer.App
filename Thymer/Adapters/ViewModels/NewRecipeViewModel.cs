@@ -10,7 +10,7 @@ using Xamarin.Forms;
 
 namespace Thymer.Adapters.ViewModels
 {
-    public class NewItemViewModel : BaseViewModel
+    public class NewRecipeViewModel : BaseViewModel
     {
         public Recipe Recipe { get; } = new Recipe();
         public ICommand Save { get; }
@@ -46,7 +46,7 @@ namespace Thymer.Adapters.ViewModels
         private readonly INavigationService _navigationService;
         private readonly IAmADatabase _database;
         
-        public NewItemViewModel(INavigationService navigationService, IAmADatabase database)    
+        public NewRecipeViewModel(INavigationService navigationService, IAmADatabase database)    
         {
             _navigationService = navigationService;
             _database = database;
