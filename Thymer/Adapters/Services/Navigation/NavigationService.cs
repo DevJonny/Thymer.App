@@ -44,7 +44,7 @@ namespace Thymer.Adapters.Services.Navigation
 
         public async Task NavigateBack()
         {
-            await Shell.Current.Navigation.PopModalAsync();
+            await Shell.Current.Navigation.PopAsync();
         }
     }
 }

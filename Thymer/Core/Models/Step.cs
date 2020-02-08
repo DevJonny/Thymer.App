@@ -1,7 +1,7 @@
 using System;
 using Newtonsoft.Json;
 
-namespace Thymer.Models
+namespace Thymer.Core.Models
 {
     public class Step
     {

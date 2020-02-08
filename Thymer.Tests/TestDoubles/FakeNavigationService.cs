@@ -10,6 +10,7 @@ namespace Thymer.Tests.TestDoubles
     public class FakeNavigationService : INavigationService
     {
         public string LastNavigatedTo { get; private set; }
+        public bool NavigatedBack { get; private set; }
 
         private readonly IDictionary<Type, string> _routeMapping;
         private readonly string _previousPage;
@@ -45,7 +46,7 @@ namespace Thymer.Tests.TestDoubles
 
         public async Task NavigateBack()
         {
-            LastNavigatedTo = _previousPage;
+            NavigatedBack = true;
 
             await Task.Run(() => { });
         }

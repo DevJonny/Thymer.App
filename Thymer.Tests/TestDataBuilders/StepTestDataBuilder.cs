@@ -1,4 +1,5 @@
 using System;
+using Thymer.Core.Models;
 using Thymer.Models;
 
 namespace Thymer.Tests.TestDataBuilders
