@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using Newtonsoft.Json;
-using Thymer.Models;
+using Thymer.Core.Extensions;
 
 namespace Thymer.Core.Models
 {
@@ -10,7 +12,7 @@ namespace Thymer.Core.Models
         public Guid Id { get; } = Guid.NewGuid();
         public string Title { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
-        public List<Step> Steps { get; } = new List<Step>();
+        public ObservableCollection<Step> Steps { get; private set; } = new ObservableCollection<Step>();
 
         public Recipe() { }
 
@@ -19,13 +21,15 @@ namespace Thymer.Core.Models
                 = (Guid.NewGuid(), title, description);
 
         [JsonConstructor]
-        public Recipe(Guid id, string title, string description, List<Step> steps)
+        public Recipe(Guid id, string title, string description, ObservableCollection<Step> steps)
             => (Id, Title, Description, Steps) 
                 = (id, title, description, steps);
 
         public void AddStep(Step step)
         {
             Steps.Add(step);
+            
+            Steps.Sort(Step.Compare());
         }
 
         public override string ToString()

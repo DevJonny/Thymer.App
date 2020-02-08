@@ -1,10 +1,12 @@
 using System;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using MvvmHelpers;
+using Newtonsoft.Json;
 using Thymer.Adapters.Services.Navigation;
 using Thymer.Core.Models;
-using Thymer.Models;
+using Thymer.Ports.Messaging;
 using Thymer.Services.Database;
 using Xamarin.Forms;
 
@@ -13,6 +15,7 @@ namespace Thymer.Adapters.ViewModels
     public class NewRecipeViewModel : BaseViewModel
     {
         public Recipe Recipe { get; } = new Recipe();
+        public ObservableCollection<Step> Steps => Recipe.Steps;
         public ICommand Save { get; }
         public ICommand AddStep { get; }
 
@@ -45,17 +48,24 @@ namespace Thymer.Adapters.ViewModels
 
         private readonly INavigationService _navigationService;
         private readonly IAmADatabase _database;
+        private readonly IMessagingCenter _messagingCenter;
         
-        public NewRecipeViewModel(INavigationService navigationService, IAmADatabase database)    
+        public NewRecipeViewModel(INavigationService navigationService, IAmADatabase database, IMessagingCenter messagingCenter)    
         {
             _navigationService = navigationService;
             _database = database;
+            _messagingCenter = messagingCenter;
 
             Title = "New Recipe";
             Save = new Command(async () => await SaveNewRecipe());
             AddStep = new Command(async () => await AddStepToRecipe());
+            
+            _messagingCenter.Subscribe<AddStepViewModel, string>(
+                this, 
+                Messages.AddRecipeStep, 
+                (sender, arg) => ReceiveStep(arg));
         }
-
+        
         public async Task SaveNewRecipe()
         {
             var recipe = new Recipe(Recipe.Id, Name, Description, Recipe.Steps);
@@ -67,6 +77,13 @@ namespace Thymer.Adapters.ViewModels
         public async Task AddStepToRecipe()
         {
             await _navigationService.NavigateTo<AddStepViewModel>(("recipeTitle", $"{Uri.EscapeDataString(Recipe.Title)}"));
+        }
+
+        public void ReceiveStep(string stepMessage)
+        {
+            var step = JsonConvert.DeserializeObject<Step>(stepMessage);
+            
+            Recipe.AddStep(step);
         }
 
         private string _name = string.Empty;

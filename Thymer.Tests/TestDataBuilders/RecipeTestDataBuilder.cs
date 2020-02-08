@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Thymer.Core.Models;
 using Thymer.Models;
 
@@ -12,7 +13,7 @@ namespace Thymer.Tests.TestDataBuilders
             public Guid Id { get; set; } = Guid.NewGuid();
             public string Title { get; set; } = RandomString;
             public string Description { get; set; } = RandomString;
-            public List<Step> Steps { get; set; } = new List<Step>();
+            public ObservableCollection<Step> Steps { get; set; } = new ObservableCollection<Step>();
 
             private static string RandomString => $"{Guid.NewGuid()}";
         }
@@ -47,7 +48,8 @@ namespace Thymer.Tests.TestDataBuilders
 
         public RecipeTestDataBuilder WithSteps(params Step[] steps)
         {
-            _recipeSpecifications.Steps.AddRange(steps);
+            foreach (var step in steps)
+                _recipeSpecifications.Steps.Add(step);
 
             return this;
         }

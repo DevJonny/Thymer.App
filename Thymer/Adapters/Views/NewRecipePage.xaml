@@ -33,14 +33,28 @@
             <ListView 
                 ItemsSource="{Binding Steps}" 
                 VerticalOptions="FillAndExpand" 
-                HasUnevenRows="true"                
+                HasUnevenRows="true"
                 CachingStrategy="RecycleElement" 
                 SelectedItem="{Binding SelectedStep}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <StackLayout Padding="10">
-                                <Label Text="{Binding Display}" LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
+                            <StackLayout 
+                                Padding="10" 
+                                Orientation="Horizontal">
+                                <Label 
+                                    Text="{Binding Name}" 
+                                    LineBreakMode="NoWrap" 
+                                    Style="{DynamicResource 
+                                    ListItemTextStyle}" 
+                                    FontSize="16" 
+                                    HorizontalOptions="StartAndExpand"/>
+                                <Label 
+                                    Text="{Binding Duration}" 
+                                    Style="{DynamicResource 
+                                    ListItemTextStyle}" 
+                                    FontSize="16" 
+                                    HorizontalOptions="EndAndExpand" />
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>
