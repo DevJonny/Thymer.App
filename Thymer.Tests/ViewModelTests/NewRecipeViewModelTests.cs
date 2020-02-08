@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using FluentAssertions;
 using Machine.Specifications;
@@ -35,7 +34,9 @@ namespace Thymer.Tests.ViewModelTests
         {
             static NewRecipeViewModel vm;
             static Guid id;
-            
+            static Step _stepOne;
+            static Step _longerStep;
+
             Establish context = () =>
             {
                 vm = new NewRecipeViewModel(_navigationService, _database, _messagingCenter);
@@ -43,6 +44,12 @@ namespace Thymer.Tests.ViewModelTests
                 id = vm.Recipe.Id;
                 vm.Name = name;
                 vm.Description = description;
+
+                _stepOne = new Step("First step into a larger world", 1, 2, 3);
+                _longerStep = new Step("A longer task than the first", 4, 5, 6);
+                
+                vm.Recipe.Steps.Add(_stepOne);
+                vm.Recipe.Steps.Add(_longerStep);
             };
             
             Because of = () => vm.SaveNewRecipe();
@@ -50,7 +57,7 @@ namespace Thymer.Tests.ViewModelTests
             It should_have_added_one_item = () =>
                 _database.StoredRecipes
                     .Should().ContainSingle()
-                    .Which.Should().BeEquivalentTo(new Recipe(id, name, description, new ObservableCollection<Step>()));
+                    .Which.Should().BeEquivalentTo(new Recipe(id, name, description, new ObservableCollection<Step> {_longerStep, _stepOne}));
 
             It should_navigate_back_to_home = () => _navigationService.LastNavigatedTo.Should().Be("//root");
         }
@@ -92,7 +99,7 @@ namespace Thymer.Tests.ViewModelTests
             static Step _existingStep, _newStep;
             static string _stepMessage;
 
-            private Establish context = () => 
+            Establish context = () => 
             {
                 _existingStep = new Step("The step that came before", 1, 2, 3);
                 
