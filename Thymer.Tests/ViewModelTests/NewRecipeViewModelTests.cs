@@ -52,7 +52,7 @@ namespace Thymer.Tests.ViewModelTests
                 vm.Recipe.Steps.Add(_longerStep);
             };
             
-            Because of = () => vm.SaveNewRecipe();
+            Because of = () => vm.SaveRecipe();
 
             It should_have_added_one_item = () =>
                 _database.StoredRecipes
@@ -90,7 +90,7 @@ namespace Thymer.Tests.ViewModelTests
 
             Because of = () => vm.AddStepToRecipe();
 
-            It should_navigate_to_add_step_with_recipe_id = () => _navigationService.LastNavigatedTo.Should().Be($"addRecipe/addStep?recipeTitle={uriEscapedName}");
+            It should_navigate_to_add_step_with_recipe_id = () => _navigationService.LastNavigatedTo.Should().Be($"recipe/step?recipeTitle={uriEscapedName}");
         }
 
         class When_receiving_a_new_step_with_duration_longer_than_existing
