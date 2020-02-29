@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage 
+    xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design" 
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    mc:Ignorable="d" 
+    x:Class="Thymer.Adapters.Views.UpdateRecipePage" 
+    Title="{Binding Title}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Save" Command="{Binding Save}" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <StackLayout Spacing="20" Padding="15">
+            <Label 
+                Text="Recipe Name" 
+                FontSize="Medium" />
+            <Entry 
+                Text="{Binding Name}" 
+                FontSize="Small" 
+                Placeholder="A name for your recipe..." />
+            <Label 
+                Text="Recipe Description" 
+                FontSize="Medium" />
+            <Editor 
+                Text="{Binding Description}" 
+                FontSize="Small" 
+                Margin="0"
+                Placeholder="Description of your recipe here..."/>
+            <Label
+                Text="Recipe Steps"
+                FontSize="Medium" />
+            <ListView 
+                ItemsSource="{Binding Steps}" 
+                VerticalOptions="FillAndExpand" 
+                HasUnevenRows="true"
+                CachingStrategy="RecycleElement" 
+                SelectedItem="{Binding SelectedStep}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout 
+                                Padding="10" 
+                                Orientation="Horizontal">
+                                <Label 
+                                    Text="{Binding Name}" 
+                                    LineBreakMode="NoWrap" 
+                                    Style="{DynamicResource 
+                                    ListItemTextStyle}" 
+                                    FontSize="16" 
+                                    HorizontalOptions="StartAndExpand"/>
+                                <Label 
+                                    Text="{Binding Duration}" 
+                                    Style="{DynamicResource 
+                                    ListItemTextStyle}" 
+                                    FontSize="16" 
+                                    HorizontalOptions="EndAndExpand" />
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Button
+                Text="Add Step"
+                Command="{Binding AddStep}" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

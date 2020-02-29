@@ -37,6 +37,13 @@ namespace Thymer.Adapters.Services.Database
             await Connection.InsertAsync(storedRecipe);
         }
 
+        public async Task UpdateRecipe(Recipe recipe)
+        {
+            var storedRecipe = new StoredRecipe(recipe.Id, recipe.ToString());
+            
+            await Connection.UpdateAsync(storedRecipe);
+        }
+
         public async Task<Recipe> GetRecipe(Guid id)
         {
             var storedRecipe = await _recipeTable.Where(r => r.Id == id).FirstOrDefaultAsync();

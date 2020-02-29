@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -94,6 +95,35 @@ namespace Thymer.Tests.ServiceTests
                 var returnedRecipe = JsonConvert.DeserializeObject<Recipe>(returnedStoredRecipe.Recipe);
                 
                 returnedRecipe.Should().BeEquivalentTo(recipe);
+            };
+        }
+
+        class When_updating_an_existing_recipe
+        {
+            static Recipe _recipe;
+
+            Establish context = () =>
+            {
+                _recipe = new Recipe(title, description);
+                _database.AddRecipe(_recipe);
+            };
+
+            Because of = () =>
+            {
+                _recipe.Title = $"Updated {_recipe.Title}";
+                _recipe.Description = $"Updated {_recipe.Description}";
+                
+                _database.UpdateRecipe(_recipe).Wait();
+            };
+
+            It should_have_updated_the_recipe = async () =>
+            {
+                var storedRecipe = await _database.Connection.Table<StoredRecipe>()
+                    .FirstAsync(sr => sr.Id == _recipe.Id);
+
+                var returnedRecipe = JsonConvert.DeserializeObject<Recipe>(storedRecipe.Recipe);
+
+                returnedRecipe.Should().BeEquivalentTo(_recipe);
             };
         }
 

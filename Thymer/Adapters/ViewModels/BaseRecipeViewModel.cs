@@ -70,7 +70,12 @@ namespace Thymer.Adapters.ViewModels
 
         public async Task UpdateStep(Step step)
         {
-            throw new NotImplementedException();
+            await _navigationService.NavigateTo<AddStepViewModel>(
+                ("id", $"{step.Id}"),
+                ("name", Uri.EscapeDataString(step.Name)),
+                ("hours", Uri.EscapeDataString($"{step.Hours}")),
+                ("minutes", Uri.EscapeDataString($"{step.Minutes}")),
+                ("seconds", Uri.EscapeDataString($"{step.Seconds}")));
         }
 
         public async Task AddStepToRecipe()

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -13,9 +13,20 @@ namespace Thymer.Adapters.ViewModels
 {
     public class RecipeListViewModel : BaseViewModel
     {
-        public ObservableCollection<Recipe> Items { get; }
         public ICommand Add { get; }
+        public ICommand Update { get; }
         public ICommand Refresh { get; }
+        public ObservableCollection<Recipe> Items { get; }
+
+        public Recipe SelectedRecipe
+        {
+            get => _selectedRecipe;
+            set
+            {
+                _selectedRecipe = value;
+                _navigationService.NavigateTo<UpdateRecipeViewModel>(("recipeId", $"{_selectedRecipe.Id}"));
+            }
+        }
 
         private readonly INavigationService _navigationService;
         private readonly IAmADatabase _database;
@@ -30,6 +41,7 @@ namespace Thymer.Adapters.ViewModels
             
             Add = new Command(async () => await AddRecipe());
             Refresh = new Command(LoadRecipes);
+            Update = new Command(async () => await UpdateRecipe());
 
             LoadRecipes();
         }
@@ -45,7 +57,7 @@ namespace Thymer.Adapters.ViewModels
             {
                 Items.Clear();
                 var items = _database.GetAllRecipes();
-                
+
                 foreach (var item in items)
                     Items.Add(item);
             }
@@ -57,11 +69,19 @@ namespace Thymer.Adapters.ViewModels
             {
                 IsBusy = false;
             }
+            
         }
 
         private async Task AddRecipe()
         {
             await _navigationService.NavigateTo<NewRecipeViewModel>();
         }
+        
+        private async Task UpdateRecipe()
+        {
+            await _navigationService.NavigateTo<UpdateRecipeViewModel>();
+        }
+
+        private Recipe _selectedRecipe;
     }
 }

@@ -11,6 +11,7 @@ namespace Thymer.Adapters.Services.Database
         SQLiteAsyncConnection Connection { get; }
         
         Task AddRecipe(Recipe recipe);
+        Task UpdateRecipe(Recipe recipe);
         Task<Recipe> GetRecipe(Guid id);
         IEnumerable<Recipe> GetAllRecipes();
     }

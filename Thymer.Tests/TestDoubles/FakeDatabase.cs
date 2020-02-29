@@ -26,6 +26,16 @@ namespace Thymer.Tests.TestDoubles
             return Task.Delay(0);
         }
 
+        public Task UpdateRecipe(Recipe recipe)
+        {
+            var original = StoredRecipes.First(r => r.Id == recipe.Id);
+
+            StoredRecipes.Remove(original);
+            StoredRecipes.Add(recipe);
+
+            return Task.Delay(0);
+        }
+
         public async Task<Recipe> GetRecipe(Guid id)
         {
             var recipe = StoredRecipes.FirstOrDefault(r => r.Id == id);

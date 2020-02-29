@@ -38,6 +38,15 @@ namespace Thymer.Core.Models
         {
             return JsonConvert.SerializeObject(this);
         }
+
+        public void UpdateStep(Step step)
+        {
+            var oldStep = Steps.First(s => s.Id == step.Id);
+            
+            Steps.Remove(oldStep);
+            Steps.Add(step);
+            Steps.Sort(Step.Compare());
+        }
     }
 
     public class StoredRecipe
