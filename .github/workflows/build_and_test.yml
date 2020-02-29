@@ -7,7 +7,9 @@ jobs:
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v1
-    - name: iOS
+    - name: iOS build and test
       run: |
         nuget restore
         msbuild Thymer.iOS/Thymer.iOS.csproj /verbosity:normal /t:Rebuild /p:Platform=iPhoneSimulator /p:Configuration=Debug
+        cd ../
+        dotnet test
