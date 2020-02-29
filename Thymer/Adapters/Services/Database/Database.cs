@@ -19,7 +19,7 @@ namespace Thymer.Adapters.Services.Database
         public Database(string dbPath)
         {
             Connection = new SQLiteAsyncConnection(dbPath);
-            Connection.CreateTableAsync<StoredRecipe>().Wait();
+            Connection.CreateTableAsync<StoredRecipe>(CreateFlags.ImplicitPK).Wait();
         }
 
         public Database() 
