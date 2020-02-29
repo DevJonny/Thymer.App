@@ -9,6 +9,5 @@ jobs:
     - uses: actions/checkout@v1
     - name: iOS
       run: |
-        cd Thymer.iOS
         nuget restore
-        msbuild Thymer.iOS.csproj /verbosity:normal /t:Rebuild /p:Platform=iPhoneSimulator /p:Configuration=Debug
+        msbuild Thymer.iOS/Thymer.iOS.csproj /verbosity:normal /t:Rebuild /p:Platform=iPhoneSimulator /p:Configuration=Debug
