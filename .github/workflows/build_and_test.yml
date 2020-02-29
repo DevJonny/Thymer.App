@@ -11,5 +11,4 @@ jobs:
       run: |
         nuget restore
         msbuild Thymer.iOS/Thymer.iOS.csproj /verbosity:normal /t:Rebuild /p:Platform=iPhoneSimulator /p:Configuration=Debug
-        cd ../
         dotnet test
