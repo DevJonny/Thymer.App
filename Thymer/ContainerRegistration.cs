@@ -4,7 +4,6 @@ using Thymer.Adapters.Services.Database;
 using Thymer.Adapters.Services.Navigation;
 using Thymer.Adapters.ViewModels;
 using Thymer.Adapters.Views;
-using Thymer.Services.Database;
 using TinyIoC;
 using Xamarin.Forms;
 

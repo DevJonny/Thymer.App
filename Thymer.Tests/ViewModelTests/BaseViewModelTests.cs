@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using Machine.Specifications;
+using Thymer.Adapters.Services.Database;
 using Thymer.Models;
 using Thymer.Services;
-using Thymer.Services.Database;
 using Thymer.Tests.TestDoubles;
 using TinyIoC;
 

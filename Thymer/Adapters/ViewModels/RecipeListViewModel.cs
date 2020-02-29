@@ -1,12 +1,12 @@
-﻿using System;
+using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using MvvmHelpers;
+using Thymer.Adapters.Services.Database;
 using Thymer.Adapters.Services.Navigation;
 using Thymer.Core.Models;
-using Thymer.Services.Database;
 using Xamarin.Forms;
 
 namespace Thymer.Adapters.ViewModels

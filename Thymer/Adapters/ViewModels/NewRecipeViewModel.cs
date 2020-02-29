@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
+using Thymer.Adapters.Services.Database;
 using Thymer.Adapters.Services.Navigation;
 using Thymer.Core.Models;
-using Thymer.Services.Database;
 using Xamarin.Forms;
 
 namespace Thymer.Adapters.ViewModels

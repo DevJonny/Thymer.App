@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using SQLite;
+using Thymer.Adapters.Services.Database;
 using Thymer.Core.Models;
-using Thymer.Services.Database;
 
 namespace Thymer.Tests.TestDoubles
 {

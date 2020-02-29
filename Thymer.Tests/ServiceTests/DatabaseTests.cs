@@ -9,7 +9,6 @@ using Thymer.Adapters.Services.Database;
 using Thymer.Core.Exceptions;
 using Thymer.Core.Models;
 using Thymer.Models;
-using Thymer.Services.Database;
 using Thymer.Tests.TestDataBuilders;
 
 namespace Thymer.Tests.ServiceTests

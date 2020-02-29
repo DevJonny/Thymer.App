@@ -7,7 +7,6 @@ using Newtonsoft.Json;
 using SQLite;
 using Thymer.Core.Exceptions;
 using Thymer.Core.Models;
-using Thymer.Services.Database;
 
 namespace Thymer.Adapters.Services.Database
 {

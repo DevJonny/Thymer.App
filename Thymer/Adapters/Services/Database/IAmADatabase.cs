@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using SQLite;
 using Thymer.Core.Models;
 
-namespace Thymer.Services.Database
+namespace Thymer.Adapters.Services.Database
 {
     public interface IAmADatabase
     {
