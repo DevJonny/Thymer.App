@@ -12,9 +12,10 @@ namespace Thymer.Adapters.Views
     [DesignTimeVisible(false)]
     public partial class RecipeListPage : ContentPage
     {
+        private readonly RecipeListViewModel _vm;
         public RecipeListPage()
         {
-            BindingContext = TinyIoCContainer.Current.Resolve<RecipeListViewModel>();
+            BindingContext = _vm = TinyIoCContainer.Current.Resolve<RecipeListViewModel>();
             InitializeComponent();
         }
 
@@ -36,8 +37,10 @@ namespace Thymer.Adapters.Views
 
             if (recipe is null)
                 return;
+            
+            _vm.Update.Execute(recipe);
 
-            await Shell.Current.GoToAsync($"updateRecipe?recipeId={recipe.Id}");
+            // await Shell.Current.GoToAsync($"updateRecipe?recipeId={recipe.Id}");
 
             RecipeListView.SelectedItem = null;
         }

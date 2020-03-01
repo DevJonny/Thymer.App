@@ -2,13 +2,15 @@ using System.Threading.Tasks;
 using Thymer.Adapters.Services.Database;
 using Thymer.Adapters.Services.Navigation;
 using Thymer.Core.Models;
+using Thymer.Ports.Services;
 using Xamarin.Forms;
 
 namespace Thymer.Adapters.ViewModels
 {
     public class NewRecipeViewModel : BaseRecipeViewModel
     {
-        public NewRecipeViewModel( INavigationService navigationService, IAmADatabase database, IMessagingCenter messagingCenter) : base(navigationService, database, messagingCenter)
+        public NewRecipeViewModel( INavigationService navigationService, IAmADatabase database, IMessagingCenter messagingCenter, StateService stateService) 
+            : base(navigationService, database, messagingCenter, stateService)
         {
         }
 

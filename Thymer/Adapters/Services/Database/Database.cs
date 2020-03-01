@@ -19,7 +19,7 @@ namespace Thymer.Adapters.Services.Database
         public Database(string dbPath)
         {
             Connection = new SQLiteAsyncConnection(dbPath);
-            Connection.CreateTableAsync<StoredRecipe>(CreateFlags.ImplicitPK).Wait();
+            Connection.CreateTableAsync<StoredRecipe>().Wait();
         }
 
         public Database() 
@@ -27,7 +27,7 @@ namespace Thymer.Adapters.Services.Database
             var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "ThymerSQLite.db3");
             
             Connection = new SQLiteAsyncConnection(path);
-            Connection.CreateTableAsync<StoredRecipe>().Wait();
+            Connection.CreateTableAsync<StoredRecipe>(CreateFlags.ImplicitPK).Wait();
         }
         
         public async Task AddRecipe(Recipe recipe)

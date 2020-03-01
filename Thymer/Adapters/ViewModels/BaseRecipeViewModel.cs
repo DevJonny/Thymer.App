@@ -8,6 +8,7 @@ using Thymer.Adapters.Services.Database;
 using Thymer.Adapters.Services.Navigation;
 using Thymer.Core.Models;
 using Thymer.Ports.Messaging;
+using Thymer.Ports.Services;
 using Xamarin.Forms;
 
 namespace Thymer.Adapters.ViewModels
@@ -49,12 +50,14 @@ namespace Thymer.Adapters.ViewModels
         protected readonly INavigationService _navigationService;
         protected readonly IAmADatabase _database;
         protected readonly IMessagingCenter _messagingCenter;
+        protected readonly StateService _stateService;
         
-        public BaseRecipeViewModel(INavigationService navigationService, IAmADatabase database, IMessagingCenter messagingCenter)    
+        public BaseRecipeViewModel(INavigationService navigationService, IAmADatabase database, IMessagingCenter messagingCenter, StateService stateService)    
         {
             _navigationService = navigationService;
             _database = database;
             _messagingCenter = messagingCenter;
+            _stateService = stateService;
 
             Title = "New Recipe";
             Save = new Command(async () => await SaveRecipe());

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Machine.Specifications;
 using Thymer.Adapters.Services.Database;
 using Thymer.Models;
+using Thymer.Ports.Services;
 using Thymer.Services;
 using Thymer.Tests.TestDoubles;
 using TinyIoC;
@@ -14,10 +15,11 @@ namespace Thymer.Tests.ViewModelTests
         protected static FakeNavigationService _navigationService;
         protected static FakeMessagingCenter _messagingCenter;
         protected static FakeDatabase _database;
+        protected static StateService _stateService = new StateService();
         
         protected Establish context = () =>
         {
-            ContainerRegistration.Register();
+            ContainerRegistration.Register(false);
 
             var routeMappings = TinyIoCContainer.Current.Resolve<IDictionary<Type, string>>();
 

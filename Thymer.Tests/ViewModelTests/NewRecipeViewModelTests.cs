@@ -19,7 +19,7 @@ namespace Thymer.Tests.ViewModelTests
         {
             static NewRecipeViewModel vm;
 
-            Because of = () => vm = new NewRecipeViewModel(_navigationService, _database, _messagingCenter);
+            Because of = () => vm = new NewRecipeViewModel(_navigationService, _database, _messagingCenter, _stateService);
 
             It should_have_set_timer_fields_to_defaults = () =>
             {
@@ -39,7 +39,7 @@ namespace Thymer.Tests.ViewModelTests
 
             Establish context = () =>
             {
-                vm = new NewRecipeViewModel(_navigationService, _database, _messagingCenter);
+                vm = new NewRecipeViewModel(_navigationService, _database, _messagingCenter, _stateService);
 
                 id = vm.Recipe.Id;
                 vm.Name = name;
@@ -68,7 +68,7 @@ namespace Thymer.Tests.ViewModelTests
             
             Establish context = () =>
             {
-                vm = new NewRecipeViewModel(_navigationService, _database, _messagingCenter);
+                vm = new NewRecipeViewModel(_navigationService, _database, _messagingCenter, _stateService);
             };
 
             Because of = () =>
@@ -86,7 +86,7 @@ namespace Thymer.Tests.ViewModelTests
         {
             static NewRecipeViewModel vm;
 
-            Establish context = () => vm = new NewRecipeViewModel(_navigationService, _database, _messagingCenter) {Name = name};
+            Establish context = () => vm = new NewRecipeViewModel(_navigationService, _database, _messagingCenter, _stateService) {Name = name};
 
             Because of = () => vm.AddStepToRecipe();
 
@@ -103,7 +103,7 @@ namespace Thymer.Tests.ViewModelTests
             {
                 _existingStep = new Step("The step that came before", 1, 2, 3);
                 
-                _vm = new NewRecipeViewModel(_navigationService, _database, _messagingCenter);
+                _vm = new NewRecipeViewModel(_navigationService, _database, _messagingCenter, _stateService);
                 _vm.Recipe.Steps.Add(_existingStep);
                 
                 _newStep = new Step(Guid.NewGuid(), "First step into a larger world", 4, 5, 6);

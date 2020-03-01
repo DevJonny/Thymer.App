@@ -16,7 +16,7 @@
                 Text="Recipe Name" 
                 FontSize="Medium" />
             <Entry 
-                Text="{Binding Name}" 
+                Text="{Binding Title}" 
                 FontSize="Small" 
                 Placeholder="A name for your recipe..." />
             <Label 

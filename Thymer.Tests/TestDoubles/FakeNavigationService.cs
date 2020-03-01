@@ -32,7 +32,10 @@ namespace Thymer.Tests.TestDoubles
         {
             var queryString = string.Join("&", queryParams.Select(q => $"{q.name}={q.value}"));
 
-            LastNavigatedTo = $"{_routeMapping[typeof(TViewModel)]}?{queryString}";
+            if (queryParams.Any())
+                queryString = "?" + queryString;
+
+            LastNavigatedTo = $"{_routeMapping[typeof(TViewModel)]}{queryString}";
 
             await Task.Run(() => { });
         }

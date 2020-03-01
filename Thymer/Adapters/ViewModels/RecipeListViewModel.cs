@@ -7,6 +7,7 @@ using MvvmHelpers;
 using Thymer.Adapters.Services.Database;
 using Thymer.Adapters.Services.Navigation;
 using Thymer.Core.Models;
+using Thymer.Ports.Services;
 using Xamarin.Forms;
 
 namespace Thymer.Adapters.ViewModels
@@ -30,18 +31,20 @@ namespace Thymer.Adapters.ViewModels
 
         private readonly INavigationService _navigationService;
         private readonly IAmADatabase _database;
+        private readonly StateService _stateService;
 
-        public RecipeListViewModel(INavigationService navigationService, IAmADatabase database)
+        public RecipeListViewModel(INavigationService navigationService, IAmADatabase database, StateService stateService)
         {    
             _navigationService = navigationService;
             _database = database;
+            _stateService = stateService;
             
             Title = "My Recipes";
             Items = new ObservableCollection<Recipe>();
             
             Add = new Command(async () => await AddRecipe());
             Refresh = new Command(LoadRecipes);
-            Update = new Command(async () => await UpdateRecipe());
+            Update = new Command(async (recipe) => await UpdateRecipe(recipe as Recipe));
 
             LoadRecipes();
         }
@@ -77,8 +80,9 @@ namespace Thymer.Adapters.ViewModels
             await _navigationService.NavigateTo<NewRecipeViewModel>();
         }
         
-        private async Task UpdateRecipe()
+        private async Task UpdateRecipe(Recipe recipe)
         {
+            _stateService.Recipe = recipe;
             await _navigationService.NavigateTo<UpdateRecipeViewModel>();
         }
 

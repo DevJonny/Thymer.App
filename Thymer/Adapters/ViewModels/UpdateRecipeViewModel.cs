@@ -3,23 +3,13 @@ using System.Threading.Tasks;
 using Thymer.Adapters.Services.Database;
 using Thymer.Adapters.Services.Navigation;
 using Thymer.Core.Models;
+using Thymer.Ports.Services;
 using Xamarin.Forms;
 
 namespace Thymer.Adapters.ViewModels
 {
-    [QueryProperty("RecipeId", "recipeId")]
     public class UpdateRecipeViewModel : BaseRecipeViewModel
     {
-        public string RecipeId
-        {
-            get => _recipeId;
-            set
-            {
-                _recipeId = value;
-                LoadRecipe().Wait();
-            }
-        }
-
         public override Recipe Recipe
         {
             get => _recipe; 
@@ -30,22 +20,27 @@ namespace Thymer.Adapters.ViewModels
             }
         }
 
-        public UpdateRecipeViewModel(INavigationService navigationService, IAmADatabase database, IMessagingCenter messagingCenter) : base(navigationService, database, messagingCenter)
+        public UpdateRecipeViewModel(INavigationService navigationService, IAmADatabase database, IMessagingCenter messagingCenter, StateService stateService) 
+            : base(navigationService, database, messagingCenter, stateService)
         {
-            _recipe = new Recipe();
+            LoadRecipe();
         }
 
         public override async Task SaveRecipe()
         {
-            await _database.UpdateRecipe(_recipe);
+            Recipe.Title = Title;
+            Recipe.Description = Description;
+            
+            await _database.UpdateRecipe(Recipe);
         }
 
-        private async Task LoadRecipe()
+        public void LoadRecipe()
         {
-            _recipe = await _database.GetRecipe(Guid.Parse(RecipeId));
+            Recipe = _stateService.Recipe;
+            Title = _stateService.Recipe.Title;
+            Description = _stateService.Recipe.Description;
         }
 
         private Recipe _recipe;
-        private string _recipeId;
     }
 }

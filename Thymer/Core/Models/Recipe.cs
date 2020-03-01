@@ -51,6 +51,7 @@ namespace Thymer.Core.Models
 
     public class StoredRecipe
     {
+        [PrimaryKey]
         public Guid Id { get; set; }
         public string Recipe { get; set; }
         

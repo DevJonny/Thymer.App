@@ -12,7 +12,8 @@ namespace Thymer.Adapters.Views
     {
         public UpdateRecipePage()
         {
-            BindingContext = TinyIoCContainer.Current.Resolve<UpdateRecipeViewModel>();
+            UpdateRecipeViewModel vm;
+            BindingContext = vm = TinyIoCContainer.Current.Resolve<UpdateRecipeViewModel>();
             
             InitializeComponent();
         }

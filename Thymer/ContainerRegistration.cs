@@ -4,6 +4,7 @@ using Thymer.Adapters.Services.Database;
 using Thymer.Adapters.Services.Navigation;
 using Thymer.Adapters.ViewModels;
 using Thymer.Adapters.Views;
+using Thymer.Ports.Services;
 using TinyIoC;
 using Xamarin.Forms;
 
@@ -11,7 +12,7 @@ namespace Thymer
 {
     public static class ContainerRegistration
     {
-        public static void Register()
+        public static void Register(bool includeDatabase = true)
         {
             _viewModelRoutes.Clear();
             
@@ -21,10 +22,13 @@ namespace Thymer
             RegisterRoute<AddStepViewModel, AddStepPage>("recipe/step");
             RegisterRoute<ItemDetailViewModel, ItemDetailPage>("recipe");
 
+            if (includeDatabase)
+                TinyIoCContainer.Current.Register<IAmADatabase>(new Database());
+            
             TinyIoCContainer.Current.Register(_viewModelRoutes);
             TinyIoCContainer.Current.Register<INavigationService, NavigationService>();
-            TinyIoCContainer.Current.Register<IAmADatabase>(new Database());
             TinyIoCContainer.Current.Register(MessagingCenter.Instance);
+            TinyIoCContainer.Current.Register<StateService>().AsSingleton();
             
             TinyIoCContainer.Current.AutoRegister(type => type.Name.EndsWith("ViewModel"));
         }
