@@ -41,6 +41,33 @@ namespace Thymer.Tests.ViewModelTests
             It should_have_changed_title = () => _vm.Title.Should().BeEquivalentTo($"Add step to {_recipeTitle}");
         }
 
+        class When_setting_the_existing_recipe
+        {
+            static AddStepViewModel _vm;
+            static string _name = "Roast Potato";
+            static Guid _id;
+            static int _hours, _minutes, _seconds;
+            static string _existingStep;
+
+            Establish context = () =>
+            {
+                _vm = new AddStepViewModel(_messagingCenter, _navigationService);
+                _id = Guid.NewGuid();
+                _hours = 1;
+                _minutes = 2;
+                _seconds = 3;
+                _existingStep = Uri.EscapeDataString($"{_id}|{_name}|{_hours}|{_minutes}|{_seconds}");
+            };
+
+            Because of = () => _vm.ExistingStep = _existingStep;
+            
+            It should_have_changed_the_id = () => _vm.Id.Should().Be(_id);
+            It should_have_changed_the_name = () => _vm.Name.Should().Be(_name);
+            It should_have_changed_the_hours = () => _vm.Hours.Should().Be(_hours);
+            It should_have_changed_the_minutes = () => _vm.Minutes.Should().Be(_minutes);
+            It should_have_changed_the_seconds = () => _vm.Seconds.Should().Be(_seconds);
+        }
+
         class When_setting_the_step_name
         {
             static AddStepViewModel _vm;
