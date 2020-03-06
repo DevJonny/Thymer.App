@@ -123,7 +123,7 @@ namespace Thymer.Adapters.ViewModels
             if (!SaveEnabled)
                 return;
 
-            Step = new Step(Id, Name, Hours, Minutes, Seconds);
+            Step = new Step(Step.Id, Name, Hours, Minutes, Seconds);
             
             _messagingCenter.Send(this, Messages.AddRecipeStep, JsonConvert.SerializeObject(Step));
             await _navigationService.NavigateBack();
