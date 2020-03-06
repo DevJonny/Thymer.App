@@ -31,7 +31,7 @@ namespace Thymer.Adapters.Views
             RecipeListView.SelectedItem = null;
         }
 
-        async void OnItemTapped(object sender, ItemTappedEventArgs args)
+        void OnItemTapped(object sender, ItemTappedEventArgs args)
         {
             var recipe = args.Item as Recipe;
 
@@ -39,8 +39,6 @@ namespace Thymer.Adapters.Views
                 return;
             
             _vm.Update.Execute(recipe);
-
-            // await Shell.Current.GoToAsync($"updateRecipe?recipeId={recipe.Id}");
 
             RecipeListView.SelectedItem = null;
         }

@@ -16,8 +16,8 @@ namespace Thymer.Tests.ViewModelTests
         protected static FakeMessagingCenter _messagingCenter;
         protected static FakeDatabase _database;
         protected static StateService _stateService = new StateService();
-        
-        protected Establish context = () =>
+
+        protected BaseViewModelTests ()
         {
             ContainerRegistration.Register(false);
 
@@ -29,6 +29,6 @@ namespace Thymer.Tests.ViewModelTests
 
             TinyIoCContainer.Current.Register<IDataStore<Item>>(new MockDataStore());
             TinyIoCContainer.Current.Register<IAmADatabase>(_database);
-        };
+        }
     }
 }

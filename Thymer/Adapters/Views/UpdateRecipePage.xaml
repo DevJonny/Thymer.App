@@ -31,11 +31,12 @@
                 Text="Recipe Steps"
                 FontSize="Medium" />
             <ListView 
+                x:Name="StepListView" 
                 ItemsSource="{Binding Steps}" 
                 VerticalOptions="FillAndExpand" 
                 HasUnevenRows="true"
                 CachingStrategy="RecycleElement" 
-                SelectedItem="{Binding SelectedStep}">
+                ItemTapped="OnItemTapped">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>

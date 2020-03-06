@@ -73,12 +73,10 @@ namespace Thymer.Adapters.ViewModels
 
         public async Task UpdateStep(Step step)
         {
-            await _navigationService.NavigateTo<AddStepViewModel>(
-                ("id", $"{step.Id}"),
-                ("name", Uri.EscapeDataString(step.Name)),
-                ("hours", Uri.EscapeDataString($"{step.Hours}")),
-                ("minutes", Uri.EscapeDataString($"{step.Minutes}")),
-                ("seconds", Uri.EscapeDataString($"{step.Seconds}")));
+            var recipeName = Uri.EscapeDataString(Recipe.Title);
+            var existingStep = Uri.EscapeDataString($"{step.Id}|{step.Name}|{step.Hours}|{step.Minutes}|{step.Seconds}");
+            
+            await _navigationService.NavigateTo<AddStepViewModel>(("name", $"{recipeName}"), ("existingStep", existingStep));
         }
 
         public async Task AddStepToRecipe()
