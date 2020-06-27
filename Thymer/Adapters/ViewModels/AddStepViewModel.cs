@@ -47,6 +47,8 @@ namespace Thymer.Adapters.ViewModels
                 _existingStep = Uri.UnescapeDataString(value);
                 var parts = _existingStep.Split('|');
 
+                _updating = !string.IsNullOrEmpty(parts[0]);
+                
                 Id = Guid.TryParse(parts[0], out Guid id) ? id : Guid.NewGuid();
                 Name = parts[1];
                 Hours = int.TryParse(parts[2], out var hours) ? hours : 0;
@@ -122,8 +124,10 @@ namespace Thymer.Adapters.ViewModels
                 return;
 
             var step = new Step(Id, Name, Hours, Minutes, Seconds);
+
+            var message = _updating ? Messages.UpdateRecipeStep : Messages.AddRecipeStep;
             
-            _messagingCenter.Send(this, Messages.AddRecipeStep, JsonConvert.SerializeObject(step));
+            _messagingCenter.Send(this, message, JsonConvert.SerializeObject(step));
             await _navigationService.NavigateBack();
         }
         
@@ -136,8 +140,8 @@ namespace Thymer.Adapters.ViewModels
         private string _existingStep = string.Empty;
         private string _name = string.Empty;
         private string _duration = "00:00:00";
-        private Guid _id;
+        private Guid _id = Guid.NewGuid();
         private int _hours, _minutes, _seconds;
-        private bool _saveEnabled;
+        private bool _saveEnabled, _updating;
     }
 }

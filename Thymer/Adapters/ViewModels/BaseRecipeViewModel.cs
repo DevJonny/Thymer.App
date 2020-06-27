@@ -67,6 +67,11 @@ namespace Thymer.Adapters.ViewModels
                 this, 
                 Messages.AddRecipeStep, 
                 (sender, arg) => ReceiveStep(arg));
+            
+            _messagingCenter.Subscribe<AddStepViewModel, string>(
+                this,
+                Messages.UpdateRecipeStep,
+                (sender, arg) => ReceiveUpdatedStep(arg));
         }
 
         public abstract Task SaveRecipe();

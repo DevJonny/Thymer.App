@@ -134,6 +134,7 @@ namespace Thymer.Tests.ViewModelTests
 
             Because of = () => _vm.Save.Execute(null);
 
+            It should_have_valid_id = () => _vm.Id.Should().NotBe(Guid.Empty);
             It should_publish_add_step_message = () => _messagingCenter.WasSent(_vm, Messages.AddRecipeStep, _message);
             It should_navigated_back =() => _navigationService.NavigatedBack.Should().BeTrue();
         }
@@ -171,7 +172,7 @@ namespace Thymer.Tests.ViewModelTests
                 _vm.Save.Execute(null);
             };
             
-            It should_publish_update_step_message = () => _messagingCenter.WasSent(_vm, Messages.AddRecipeStep, _message);
+            It should_publish_update_step_message = () => _messagingCenter.WasSent(_vm, Messages.UpdateRecipeStep, _message);
             It should_navigate_back = () => _navigationService.NavigatedBack.Should().BeTrue();
         }
     }

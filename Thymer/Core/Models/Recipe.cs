@@ -14,7 +14,7 @@ namespace Thymer.Core.Models
         public Guid Id { get; set; } = Guid.NewGuid();
         public string Title { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
-        public ObservableCollection<Step> Steps { get; private set; } = new ObservableCollection<Step>();
+        public ObservableCollection<Step> Steps { get; } = new ObservableCollection<Step>();
 
         public Recipe() { }
 
