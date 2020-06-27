@@ -129,13 +129,50 @@ namespace Thymer.Tests.ViewModelTests
                     Seconds = _seconds
                 };
 
-                _message = JsonConvert.SerializeObject(new Step(_vm.Step.Id, _name, _hours, _minutes, _seconds));
+                _message = JsonConvert.SerializeObject(new Step(_vm.Id, _name, _hours, _minutes, _seconds));
             };
 
             Because of = () => _vm.Save.Execute(null);
 
             It should_publish_add_step_message = () => _messagingCenter.WasSent(_vm, Messages.AddRecipeStep, _message);
             It should_navigated_back =() => _navigationService.NavigatedBack.Should().BeTrue();
+        }
+
+        class When_updating_the_step
+        {
+            static Guid _id;
+            static string _updatedName, _message;
+            static int _updatedHours, _updatedMinutes, _updatedSeconds;
+            static AddStepViewModel _vm;
+
+            Establish context = () =>
+            {
+                _id = Guid.NewGuid();
+                _updatedName = "Beefz";
+                _updatedHours = 4;
+                _updatedMinutes = 5;
+                _updatedSeconds = 6;
+
+                _vm = new AddStepViewModel(_messagingCenter, _navigationService)
+                {
+                    ExistingStep = $"{_id}|Beef|1|2|3"
+                };
+                
+                _message = JsonConvert.SerializeObject(new Step(_id, _updatedName, _updatedHours, _updatedMinutes, _updatedSeconds));
+            };
+
+            private Because of = () =>
+            {
+                _vm.Name = _updatedName;
+                _vm.Hours = _updatedHours;
+                _vm.Minutes = _updatedMinutes;
+                _vm.Seconds = _updatedSeconds;
+                
+                _vm.Save.Execute(null);
+            };
+            
+            It should_publish_update_step_message = () => _messagingCenter.WasSent(_vm, Messages.AddRecipeStep, _message);
+            It should_navigate_back = () => _navigationService.NavigatedBack.Should().BeTrue();
         }
     }
 }

@@ -113,8 +113,6 @@ namespace Thymer.Adapters.ViewModels
             set => SetProperty(ref _saveEnabled, value, nameof(SaveEnabled));
         }
         
-        public Step Step { get; private set; } = new Step();
-        
         public List<int> ZeroToTwentyFour => Enumerable.Range(0, 24).ToList();
         public List<int> ZeroToFiftyNine => Enumerable.Range(0, 59).ToList();
 
@@ -123,9 +121,9 @@ namespace Thymer.Adapters.ViewModels
             if (!SaveEnabled)
                 return;
 
-            Step = new Step(Step.Id, Name, Hours, Minutes, Seconds);
+            var step = new Step(Id, Name, Hours, Minutes, Seconds);
             
-            _messagingCenter.Send(this, Messages.AddRecipeStep, JsonConvert.SerializeObject(Step));
+            _messagingCenter.Send(this, Messages.AddRecipeStep, JsonConvert.SerializeObject(step));
             await _navigationService.NavigateBack();
         }
         
