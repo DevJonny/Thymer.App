@@ -47,6 +47,11 @@ namespace Thymer.Core.Models
             Steps.Add(step);
             Steps.Sort(Step.Compare());
         }
+
+        public static Comparison<Recipe> Compare()
+        {
+            return (recipe1, recipe2) => string.Compare(recipe1.Title, recipe2.Title, StringComparison.Ordinal);
+        }
     }
 
     public class StoredRecipe

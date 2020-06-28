@@ -1,8 +1,9 @@
-using System;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Thymer.Adapters.Services.Database;
 using Thymer.Adapters.Services.Navigation;
 using Thymer.Core.Models;
+using Thymer.Ports.Messaging;
 using Thymer.Ports.Services;
 using Xamarin.Forms;
 
@@ -32,6 +33,10 @@ namespace Thymer.Adapters.ViewModels
             Recipe.Description = Description;
             
             await _database.UpdateRecipe(Recipe);
+            
+            _messagingCenter.Send(this, Messages.UpdateRecipe, JsonConvert.SerializeObject(Recipe));
+            
+            await _navigationService.NavigateBackToRoot();
         }
 
         public void LoadRecipe()

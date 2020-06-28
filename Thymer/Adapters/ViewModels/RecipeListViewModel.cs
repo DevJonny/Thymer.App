@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using MvvmHelpers;
+using Newtonsoft.Json;
 using Thymer.Adapters.Services.Database;
 using Thymer.Adapters.Services.Navigation;
+using Thymer.Core.Extensions;
 using Thymer.Core.Models;
+using Thymer.Ports.Messaging;
 using Thymer.Ports.Services;
 using Xamarin.Forms;
 
@@ -31,12 +35,14 @@ namespace Thymer.Adapters.ViewModels
 
         private readonly INavigationService _navigationService;
         private readonly IAmADatabase _database;
+        private readonly IMessagingCenter _messagingCenter;
         private readonly StateService _stateService;
 
-        public RecipeListViewModel(INavigationService navigationService, IAmADatabase database, StateService stateService)
+        public RecipeListViewModel(INavigationService navigationService, IAmADatabase database, IMessagingCenter messagingCenter, StateService stateService)
         {    
             _navigationService = navigationService;
             _database = database;
+            _messagingCenter = messagingCenter;
             _stateService = stateService;
             
             Title = "My Recipes";
@@ -44,11 +50,44 @@ namespace Thymer.Adapters.ViewModels
             
             Add = new Command(async () => await AddRecipe());
             Refresh = new Command(LoadRecipes);
-            Update = new Command(async (recipe) => await UpdateRecipe(recipe as Recipe));
+            Update = new Command(async recipe => await UpdateRecipe(recipe as Recipe));
 
+            BootstrapMessages();
             LoadRecipes();
         }
-        
+
+        public void ReceiveNewRecipe(string recipeMessage)
+        {
+            var recipe = JsonConvert.DeserializeObject<Recipe>(recipeMessage);
+            
+            Items.Add(recipe);
+            Items.Sort(Recipe.Compare());
+        }
+
+        public void ReceiveUpdatedRecipe(string recipeMessage)
+        {
+            var recipe = JsonConvert.DeserializeObject<Recipe>(recipeMessage);
+
+            var oldRecipe = Items.First(r => r.Id == recipe.Id);
+
+            Items.Remove(oldRecipe);
+            Items.Add(recipe);
+            Items.Sort(Recipe.Compare());
+        }
+
+        private void BootstrapMessages()
+        {
+            _messagingCenter.Subscribe<NewRecipeViewModel, string>(
+                this,
+                Messages.AddRecipe,
+                (sender, arg) => ReceiveNewRecipe(arg));
+
+            _messagingCenter.Subscribe<UpdateRecipeViewModel, string>(
+                this,
+                Messages.UpdateRecipe,
+                (sender, arg) => ReceiveUpdatedRecipe(arg));
+        }
+
         private void LoadRecipes()
         {
             if (IsBusy)
@@ -63,6 +102,8 @@ namespace Thymer.Adapters.ViewModels
 
                 foreach (var item in items)
                     Items.Add(item);
+                
+                Items.Sort(Recipe.Compare());
             }
             catch (Exception ex)
             {
@@ -79,7 +120,7 @@ namespace Thymer.Adapters.ViewModels
         {
             await _navigationService.NavigateTo<NewRecipeViewModel>();
         }
-        
+
         private async Task UpdateRecipe(Recipe recipe)
         {
             _stateService.Recipe = recipe;

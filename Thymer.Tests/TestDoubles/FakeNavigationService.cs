@@ -11,6 +11,7 @@ namespace Thymer.Tests.TestDoubles
     {
         public string LastNavigatedTo { get; private set; }
         public bool NavigatedBack { get; private set; }
+        public bool NavigatedToRoot { get; private set; }
 
         private readonly IDictionary<Type, string> _routeMapping;
         private readonly string _previousPage;
@@ -43,6 +44,7 @@ namespace Thymer.Tests.TestDoubles
         public async Task NavigateBackToRoot()
         {
             LastNavigatedTo = "//root";
+            NavigatedToRoot = true;
 
             await Task.Run(() => { });
         }

@@ -5,6 +5,7 @@ using Machine.Specifications;
 using Newtonsoft.Json;
 using Thymer.Adapters.ViewModels;
 using Thymer.Core.Models;
+using Thymer.Ports.Messaging;
 
 namespace Thymer.Tests.ViewModelTests
 { 
@@ -36,6 +37,7 @@ namespace Thymer.Tests.ViewModelTests
             static Guid id;
             static Step _stepOne;
             static Step _longerStep;
+            static string _message;
 
             Establish context = () =>
             {
@@ -50,6 +52,8 @@ namespace Thymer.Tests.ViewModelTests
                 
                 vm.Recipe.Steps.Add(_stepOne);
                 vm.Recipe.Steps.Add(_longerStep);
+
+                _message = JsonConvert.SerializeObject(vm.Recipe);
             };
             
             Because of = () => vm.SaveRecipe();
@@ -59,6 +63,7 @@ namespace Thymer.Tests.ViewModelTests
                     .Should().ContainSingle()
                     .Which.Should().BeEquivalentTo(new Recipe(id, name, description, new ObservableCollection<Step> {_longerStep, _stepOne}));
 
+            It should_publish_new_recipe_message = () => _messagingCenter.WasSent(vm, Messages.AddRecipe, _message);
             It should_navigate_back_to_home = () => _navigationService.LastNavigatedTo.Should().Be("//root");
         }
 
@@ -86,10 +91,13 @@ namespace Thymer.Tests.ViewModelTests
         {
             static NewRecipeViewModel vm;
 
-            Establish context = () => vm = new NewRecipeViewModel(_navigationService, _database, _messagingCenter, _stateService) {Name = name};
+            Establish context = () =>
+            {
+                vm = new NewRecipeViewModel(_navigationService, _database, _messagingCenter, _stateService) {Name = name};
+            };
 
             Because of = () => vm.AddStepToRecipe();
-
+            
             It should_navigate_to_add_step_with_recipe_id = () => _navigationService.LastNavigatedTo.Should().Be($"recipe/step?recipeTitle={uriEscapedName}");
         }
 
